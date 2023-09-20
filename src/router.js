@@ -14,6 +14,13 @@ const routes = [
       props: true,
    },
    {
+    path: '/login',
+    name: 'LoginPage',
+     component: () =>
+     import('@/components/LoginPage.vue'),
+     props: true,
+  },
+   {
     path: '/film/:id',
     name: 'FilmPage',
     component: () =>

@@ -18,7 +18,7 @@
           </form>
         </li>
         <li class="btn-wrapper">
-          <a href="#" class="btn btn-outline">LOGIN</a>
+          <router-link to="/login" class="btn btn-outline">LOGIN</router-link>
         </li>
       </ul>
     </nav>
@@ -192,6 +192,6 @@ export default {
   color: #ffffff !important;  
 }
 .btn-wrapper {
-  margin-left: auto; /* Сдвиг кнопки в конец экрана */
+  margin-left: auto; 
 }
 </style>
