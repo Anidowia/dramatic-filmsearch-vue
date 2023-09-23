@@ -66,3 +66,52 @@ export const getMovieVideos = async (movieId) => {
     return [];
   }
 };
+
+export const getNowPlayingMovies = async () => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&language=en-US&page=1`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error('Error fetching now playing movies:', error);
+    return [];
+  }
+};
+
+export const getNowAiringTVShows = async () => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/tv/on_the_air?api_key=${API_KEY}&language=en-US&page=1`
+    );
+    return response.data.results;
+  } catch (error) {
+    console.error('Error fetching latest TV shows:', error);
+    return [];
+  }
+};
+
+export const getMostPopularMovieOrTVShow = async () => {
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}`
+    );
+    const results = response.data.results;
+    if (results.length > 0) {
+      const mostPopularItem = results[0];
+      const posterPath = mostPopularItem.poster_path;
+      const posterUrl = `https://image.tmdb.org/t/p/original${posterPath}`;
+      return {
+        title: mostPopularItem.title || mostPopularItem.name,
+        poster_path: posterUrl, 
+        media_type: mostPopularItem.media_type,
+      };
+    } else {
+      console.log('The list of popular series is empty.');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error fetching latest series:', error);
+    return null;
+  }
+};

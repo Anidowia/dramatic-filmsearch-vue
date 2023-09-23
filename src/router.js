@@ -20,11 +20,17 @@ const routes = [
      import('@/components/LoginPage.vue'),
      props: true,
   },
-   {
+  {
     path: '/film/:id',
     name: 'FilmPage',
     component: () =>
     import('@/components/FilmPage.vue'),
+  },
+  {
+    path: '/edit/:id',
+    name: 'EditPage',
+    component: () =>
+    import('@/components/EditPage.vue'),
   },
 ]
 export const router = createRouter({

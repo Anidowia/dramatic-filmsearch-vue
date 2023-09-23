@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, query, onSnapshot  } from 'firebase/firestore';
 import {ref, onUnmounted} from 'vue'
 const config = {
     apiKey: "AIzaSyAgNwqeM1TQtRye3OsFHx77Gd1xe9qVjOI",
@@ -38,11 +38,13 @@ export const deleteUser = id => {
 }
 
 export const useLoadUsers = () => {
-    const users = ref([])
-    const close = userCollection.onSnapshot(snapshot => {
-        users.value = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data()}))
-    })
-    onUnmounted(close)
-    return users
-}
+    const users = ref([]);
+    const q = query(userCollection); // Create a query for the user collection
+    const close = onSnapshot(q, (snapshot) => {
+      users.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    });
+    onUnmounted(close);
+    return users;
+};
+
 export default firebaseApp;

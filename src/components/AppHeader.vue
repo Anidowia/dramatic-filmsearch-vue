@@ -56,7 +56,7 @@ export default {
   width: 180px;
   height: 49px;
   object-fit: contain;
-  margin-left: 30px;
+  margin-left: 49px;
 }
 
 .navigation ul {
@@ -64,7 +64,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
   list-style: none;
-  padding: 0;
+  padding: 49px;
 }
 
 .navigation ul li {
@@ -77,29 +77,26 @@ export default {
 }
 
 .navigation ul li:first-child a {
-  color: #fff;
   font-weight: bold;
   margin-left: 147px;
   margin-right: auto;
 }
 
 .navigation ul li a {
+  color: #fff;
   position: relative;
-  color: #A1B1CB;
   font-size: 16px;
   font-weight: 700;
-  line-height: 20px;
   text-decoration: none;
   padding: 0 10px;
   letter-spacing: 0.04em;
   margin-right: 7px;
-  margin-left: 32px;
   flex-shrink: 0;
 }
 
 .navigation ul li a.active,
 .navigation ul li a:hover {
-  color: #FFFFFF;
+  color: #FFC907;
 }
 
 .navigation ul li:not(:first-child) a {
