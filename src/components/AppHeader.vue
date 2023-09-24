@@ -10,7 +10,7 @@
         <li><a href="#">MOVIES</a></li>
         <li><a href="#">NEW</a></li>
         <li>
-          <form class="search-form">
+          <form class="search-form" @submit.prevent="searchMovies">
             <input type="text" v-model="searchQuery" placeholder="Search">
             <router-link :to="{ path: '/search', query: { q: searchQuery } }">
               <img src="../assets/search.png" alt="Search icon" class="search-icon">
@@ -18,29 +18,52 @@
           </form>
         </li>
         <li class="btn-wrapper">
-          <router-link to="/login" class="btn btn-outline">LOGIN</router-link>
+        <span v-if="isLoggedIn">
+          <router-link to="/sign" @click="signOut" class="btn btn-outline"> LOGOUT </router-link>
+        </span>
+        <span v-else>
+        <router-link to="/sign" class="btn btn-outline"> LOGIN </router-link>
+      </span>
         </li>
       </ul>
     </nav>
   </header>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      searchQuery: ''
-    };
-  },
-  methods: {
-    searchMovies() {
-      this.$router.push({ name: 'SearchResult', query: { q: this.searchQuery } });
-    }
-  }
-};
-</script>
-<style>
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { onAuthStateChanged } from 'firebase/auth';
+import {auth} from '@/firebase'
 
+const router = useRouter()
+const isLoggedIn = ref(false)
+
+onAuthStateChanged(auth, function (user) {
+  if (user) {
+    isLoggedIn.value = true
+  } else {
+    isLoggedIn.value = false
+  }
+})
+
+const signOut = () => {
+  auth.signOut()
+    .then(() => {
+      router.push('/');
+    })
+    .catch(error => {
+      console.log(error.code);
+    });
+};
+
+const searchQuery = ref('')
+const searchMovies = () => {
+  router.push({ name: 'SearchResult', query: { q: searchQuery.value } })
+}
+</script>
+
+<style>
 .header {
   width: 100%;
   height: 93px;
@@ -121,7 +144,6 @@ export default {
   transform: scaleX(0);
 }
 
-
 .navigation ul li:last-child {
   position: absolute;
   width: 74px;
@@ -171,7 +193,7 @@ export default {
 }
 
 .btn-outline {
-  width: 69px;
+  width: 89px;
   height: 37px;
   color: #000 !important;
   background-color: #ffc907 !important;

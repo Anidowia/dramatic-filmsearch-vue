@@ -1,7 +1,7 @@
 <template>
     <div>
       <div class="form-group">
-        <h1>Let's create your new account</h1>
+        <h1>Let's login to your account </h1>
         <label for="email">Email address</label>
         <input v-model="email" type="email" class="form-control" id="email" placeholder="Enter email" required>
         <small class="text-secondary">We'll never share your email with anyone else.</small>
@@ -14,22 +14,23 @@
         <input v-model="check" type="checkbox" class="form-check-input" id="check">
         <label class="form-check-label" for="check">Check me out</label>
       </div>
-      <button @click="register" type="submit" class="btn btn-primary">Submit</button>
+      <button @click="signIn" type="submit" class="btn btn-primary">Submit</button>
+      <a class = "register-link"><router-link to="/login">Don't have an account? Register</router-link></a>
     </div>
 </template>
 
 <script setup>
   import { ref } from 'vue'
   import {auth} from '@/firebase'
-  import {createUserWithEmailAndPassword} from 'firebase/auth'
+  import {signInWithEmailAndPassword} from 'firebase/auth'
   import { useRouter } from 'vue-router' 
   const email = ref('')
   const password = ref('')
   const router = useRouter() 
-  const register = () => {
-    createUserWithEmailAndPassword(auth, email.value, password.value) 
+  const signIn = () => {
+    signInWithEmailAndPassword(auth, email.value, password.value) 
       .then(() => {
-        alert('Successfully registered!');
+        alert('Successfully logged in!');
         router.push('/') 
       })
       .catch(error => {
@@ -60,5 +61,14 @@
 .btn-primary.active {
   background: #000 !important;
   color: #ffffff !important;  
+}
+.register-link a {
+  color: #ffffff!important;
+  text-decoration: none;
+  margin-left: 1150px;
+}
+.register-link a:hover {
+  color: #ffc907!important;
+  text-decoration: underline;
 }
 </style>

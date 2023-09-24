@@ -164,6 +164,9 @@ export default {
   padding: 20px; 
   z-index: 2; 
 }
+.text-over-image h1, h2{
+font-weight: bold;
+}
 .image-container::before {
   content: '';
   position: absolute;

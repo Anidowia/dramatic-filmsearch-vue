@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getFirestore, collection, addDoc, query, onSnapshot  } from 'firebase/firestore';
 import {ref, onUnmounted} from 'vue'
 const config = {
@@ -13,6 +14,9 @@ const config = {
 const firebaseApp = initializeApp(config)
 const db = getFirestore(firebaseApp)
 const userCollection = collection(db, 'users')
+const auth = getAuth(firebaseApp);
+
+export { firebaseApp, db, auth };
 
 export const createUser = async (user) => {
     try {
@@ -39,12 +43,32 @@ export const deleteUser = id => {
 
 export const useLoadUsers = () => {
     const users = ref([]);
-    const q = query(userCollection); // Create a query for the user collection
+    const q = query(userCollection); 
     const close = onSnapshot(q, (snapshot) => {
       users.value = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     });
     onUnmounted(close);
     return users;
+};
+
+export const loginUser = async (email, password) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    return true; 
+  } catch (error) {
+    console.error("Error signing in: ", error);
+    throw error;
+  }
+};
+
+export const logoutUser = async () => {
+  try {
+    await signOut(auth);
+    return true; 
+  } catch (error) {
+    console.error("Error signing out: ", error);
+    throw error;
+  }
 };
 
 export default firebaseApp;
