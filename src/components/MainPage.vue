@@ -84,12 +84,33 @@
           </div>
         </li>
       </ul>
-      
+      <button class="chatbox-button" @click="toggleChatbox">CHAT</button>
+      <div class="chatbox-container" v-if="showChatbox">
+        <label class="chat-btn" for="check">
+          <i class="fa fa-commenting-o comment"></i>
+          <i class="fa fa-close close"></i>
+        </label>
+        <div class="wrapper">
+          <div class="header">
+            <h6>Let's Chat - Online</h6>
+          </div>
+          <div class="text-center p-2">
+            <span>Please fill out the form to start chat!</span>
+          </div>
+          <div class="chat-form">
+            <input type="text" class="form-control" placeholder="Name" v-model="name">
+            <input type="text" class="form-control" placeholder="Email" v-model="email">
+            <textarea class="form-control" placeholder="Your Text Message" v-model="message"></textarea>
+            <button @click="submitForm" class="btn btn-success btn-block">Submit</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { useLoadUsers } from '@/firebase'; 
+import { useLoadUsers, db } from '@/firebase'; 
+import { collection, addDoc } from 'firebase/firestore';
 import { searchMovies, getNowPlayingMovies, getMostPopularMovieOrTVShow } from '@/api';
 import { ref } from 'vue'; 
 export default {
@@ -115,6 +136,10 @@ export default {
     return {
       movies: [],
       mostPopularItem: null,
+      showChatbox: false,
+      name: '',
+      email: '',
+      message: '',
     };
   },
   async mounted() {
@@ -141,6 +166,26 @@ export default {
     getFilmPageUrl(id) {
       return { name: 'FilmPage', params: { id: id } };
     },
+    toggleChatbox() {
+      this.showChatbox = !this.showChatbox;
+    },
+    submitForm() {
+      const chatCollection = collection(db, 'chats'); 
+      addDoc(chatCollection, {
+        name: this.name,
+        email: this.email,
+        message: this.message,
+      })
+      .then(() => {
+        this.name = '';
+        this.email = '';
+        this.message = '';
+        alert('Successfully sent!');
+      })
+      .catch((error) => {
+        console.error('Error adding chat message:', error);
+      });
+    }
   },
 };
 </script>
@@ -276,4 +321,45 @@ h1 {
   list-style-type: disc;
   margin-left: 20px;
 }
+
+/* chatbox */
+.chatbox-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #ffc907;
+  color: rgb(0, 0, 0);
+  border: none;
+  font-weight: bold;
+  border-radius: 18.5px !important;
+  cursor: pointer;
+  z-index: 1000; 
+}
+
+.chatbox-button:hover {
+  background: #000 !important;
+  color: #ffffff !important;  
+}
+
+.chatbox-container {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 300px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  z-index: 1000; 
+}
+
+.btn-success {
+  background: linear-gradient(90.53deg, rgba(0, 0, 0, 0.75) 0.45%, rgba(102, 80, 165, 0.75) 105.51%);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+}
+
 </style>

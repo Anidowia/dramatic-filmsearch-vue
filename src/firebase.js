@@ -3,13 +3,13 @@ import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 import { getFirestore, collection, addDoc, query, onSnapshot  } from 'firebase/firestore';
 import {ref, onUnmounted} from 'vue'
 const config = {
-    apiKey: "AIzaSyAgNwqeM1TQtRye3OsFHx77Gd1xe9qVjOI",
-    authDomain: "vue-proj-a5b1d.firebaseapp.com",
-    projectId: "vue-proj-a5b1d",
-    storageBucket: "vue-proj-a5b1d.appspot.com",
-    messagingSenderId: "486253531102",
-    appId: "1:486253531102:web:c8abfe31d098338f6ed74f",
-    measurementId: "G-GTB0ZG6EEM"
+  apiKey: "AIzaSyAgNwqeM1TQtRye3OsFHx77Gd1xe9qVjOI",
+  authDomain: "vue-proj-a5b1d.firebaseapp.com",
+  projectId: "vue-proj-a5b1d",
+  storageBucket: "vue-proj-a5b1d.appspot.com",
+  messagingSenderId: "486253531102",
+  appId: "1:486253531102:web:c8abfe31d098338f6ed74f",
+  measurementId: "G-GTB0ZG6EEM"
 }
 const firebaseApp = initializeApp(config)
 const db = getFirestore(firebaseApp)

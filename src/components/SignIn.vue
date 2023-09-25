@@ -65,7 +65,7 @@
 .register-link a {
   color: #ffffff!important;
   text-decoration: none;
-  margin-left: 1150px;
+  margin-left: 957px;
 }
 .register-link a:hover {
   color: #ffc907!important;
