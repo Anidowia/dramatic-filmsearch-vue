@@ -1,31 +1,45 @@
 <template>
   <footer class="footer">
     <div class="dropdown">
-        <select>
-          <option value="option1">English</option>
-          <option value="option2">Polska</option>
-          <option value="option3">Русский</option>
-        </select>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Dropdown
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <button class="dropdown-item" type="button">Action</button>
+        <button class="dropdown-item" type="button">Another action</button>
+        <button class="dropdown-item" type="button">Something else here</button>
+      </div>
     </div>
-    <div class="column1">
-      <h3>Navigation</h3>
+    <div class = "col-about">
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Services</a></li>
+        <li><a href="#">THE BASICS</a></li>
+        <li><a href="#">ABOUT</a></li>
+        <li><a href="https://github.com/Anidowia/dramatic-filmsearch-vue">CONTACT US</a></li>
+        <li><a href="#">SUPPORT</a></li>
       </ul>
     </div>
-    <div class="column">
-      <h3>General Info</h3>
+    <div class = "col-social">
       <ul>
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">GUIDES</a></li>
+        <li><a href="#">TWITTER</a></li>
+        <li><a href="#">GUIDES</a></li>
+        <li><a href="#">SYSTEM</a></li>
       </ul>
     </div>
-    <div class="column">
-      <h3>Contact</h3>
-      <p>Phone: 123-456-7890</p>
+    <div class = "col-other">
+      <ul>
+        <li><a href="#">MERCH</a></li>
+        <li><a href="#">DISCORD</a></li>
+        <li><a href="#">GAMES</a></li>
+        <li><a href="#">FILMS</a></li>
+      </ul>
     </div>
+    <div class="dramatic">
+      <img src="../assets/dramatic.png" alt="Logo" class="logo">
+    </div>
+    <button class="btn btn-dark" type="button">
+      <span><i class="fa-brands fa-github"></i></span><span> Join GitHub</span>
+    </button>
   </footer>
 </template>
 
@@ -36,83 +50,78 @@
   height: 100%;
   left: 0px;
   top: 1961px;
-  background: #161214;
+  background: linear-gradient(90.53deg, rgba(0, 0, 0, 0.75) 0.45%, rgba(102, 80, 165, 0.75) 105.51%);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
 }
-
-.dropdown {
+.btn-secondary {
+  background-color: #FFC907 !important;
+  color: #161214 !important;
+  box-shadow: none !important;;
+  margin-top: 50px;
+  margin-left: 50px;
+}
+.col-about ul li {
   position: relative;
-  width: 131px;
-  left: 81px;
-  top: 35px;
-  background: #362F33;
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 30px;
-  color: #FFFFFF;
-  mix-blend-mode: normal;
-  opacity: 0.8;
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  list-style: none;
+  letter-spacing: 0.04em;
+  margin-left: 25px;
+  margin-top: 20px;
 }
-
-.dropdown select {
-  width: 100%;
-  height: 100%;
-  background-color: #362F33;
-  border: none;
-  outline: none;
-  color: #FFFFFF;
-  font-family: 'Roboto';
-  font-size: 14px;
-  line-height: 30px;
-  opacity: 0.8;
-  appearance: none;
-}
-
-.dropdown select:focus {
-  box-shadow: none;
-}
-
-.column {
-  height: 35px;
-  float: left;
-  margin-left: 60px; 
-  padding: 60px;
-  box-sizing: border-box;
-}
-
-.column1 {
-  height: 35px;
-  width: calc(33.33% - 20px);
-  float: left;
-  margin-left: 20px; 
-  padding: 60px;
-  box-sizing: border-box;
-}
-
-.column h3, .column1 h3 {
-  color: #fff;
-}
-
-.column ul, .column1 ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-.column ul li, .column1 ul li {
-  margin-bottom: 10px;
-}
-
-.column ul li a, .column1 ul li a {
+.col-about a {
   color: #fff;
   text-decoration: none;
+  list-style: none;
+  letter-spacing: 0.04em;
 }
-
-.column p {
+.col-social {
+  margin-left: 236px;
+  margin-top: -177px;
+}
+.col-social a {
   color: #fff;
+  text-decoration: none;
+  list-style: none;
+  letter-spacing: 0.04em;
+}
+.col-social ul li {
+  position: relative;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  list-style: none;
+  letter-spacing: 0.04em;
+  margin-left: 25px;
+  margin-top: 20px;
+}
+.col-other {
+  margin-left: 470px;
+  margin-top: -177px;
+}
+.col-other a {
+  color: #fff;
+  text-decoration: none;
+  list-style: none;
+  letter-spacing: 0.04em;
+}
+.col-other ul li {
+  position: relative;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  list-style: none;
+  letter-spacing: 0.04em;
+  margin-left: 25px;
+  margin-top: 20px;
+}
+.dramatic {
+  margin-left: 770px;
+  margin-top: -177px;
+}
+.btn-dark {
+  margin-left: 860px;
+  margin-top: 10px;
 }
 </style>
