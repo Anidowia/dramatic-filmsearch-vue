@@ -1,5 +1,5 @@
 <template>
-  <div class = "main">
+  <div id = "app">
     <AppHeader />
     <router-view />
     <AppFooter />
@@ -19,8 +19,7 @@ export default {
 </script>
 
 <style>
-body {
-  background-color: black !important;; 
+#app {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
@@ -29,12 +28,13 @@ body {
   font-size: 16px;
   line-height: 20px;
   color: #FFFFFF !important;; 
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.main {
   min-height: 100%;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+body {
+  background-color: black !important; 
 }
 </style>

@@ -20,21 +20,33 @@
 
 <script setup>
   import { ref } from 'vue'
-  import {auth} from '@/firebase'
-  import {createUserWithEmailAndPassword} from 'firebase/auth'
-  import { useRouter } from 'vue-router' 
+  import { auth } from '@/firebase'
+  import { createUserWithEmailAndPassword } from 'firebase/auth'
+  import { useRouter } from 'vue-router'
+  import { useStore } from 'vuex' 
   const email = ref('')
   const password = ref('')
-  const router = useRouter() 
+  const router = useRouter()
+  const store = useStore() 
   const register = () => {
-    createUserWithEmailAndPassword(auth, email.value, password.value) 
+    createUserWithEmailAndPassword(auth, email.value, password.value)
       .then(() => {
         alert('Successfully registered!');
-        router.push('/') 
+        router.push('/');
+        store.dispatch('addNotification', {
+          message: 'Successfully registered!',
+          type: 'success', 
+        });
+        console.log(store.state.notifications);
       })
       .catch(error => {
         console.log(error.code)
         alert(error.message);
+        
+        store.dispatch('addNotification', {
+          message: error.message,
+          type: 'error',
+        });
       });
   }
 </script>

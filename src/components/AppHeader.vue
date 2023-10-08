@@ -8,7 +8,7 @@
         <li><a href="#">HOME</a></li>
         <li><a href="#">TV SHOWS</a></li>
         <li><a href="#">MOVIES</a></li>
-        <li><a href="#">NEW</a></li>
+        <li> <router-link to="/aaa"><a href="#">NEW</a></router-link></li> 
         <li>
           <form class="search-form" @submit.prevent="searchMovies">
             <input type="text" v-model="searchQuery" placeholder="Search">
@@ -193,7 +193,7 @@ const searchMovies = () => {
 }
 
 .btn-outline {
-  width: 89px;
+  width: 99px;
   height: 37px;
   color: #000 !important;
   background-color: #ffc907 !important;

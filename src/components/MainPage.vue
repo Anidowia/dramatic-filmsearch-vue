@@ -10,6 +10,7 @@
       </div>
     </div>
     <h1>MOVIES YOU MUST WATCH</h1>
+    <h2 v-if="currentUser">Welcome, {{ currentUser.email }}. <router-link to="/"></router-link></h2>
     <h2 v-for="user in users" :key="user.id">dear {{ user.email }}</h2>
     <div class="carousel">
       <ul class="movie-list">
@@ -31,7 +32,7 @@
       </ul>
       <h1>JOIN TODAY</h1>
       <h3>Get access to maintain your own custom personal lists, track what you've seen and search and filter for what to watch 
-      <br>brnext—regardless if it's in theatres, on TV or available on popular streaming services like Netflix, Disney Plus, 
+      <br>next—regardless if it's in theatres, on TV or available on popular streaming services like Netflix, Disney Plus, 
       <br>Amazon Prime Video, Hayu, and Crave.
       <ul>
         <li>
@@ -108,13 +109,21 @@
     </div>
   </div>
 </template>
+
 <script>
 import { useLoadUsers, db } from '@/firebase'; 
 import { collection, addDoc } from 'firebase/firestore';
 import { searchMovies, getNowPlayingMovies, getMostPopularMovieOrTVShow } from '@/api';
 import { ref } from 'vue'; 
+import { useStore } from 'vuex';
 export default {
   name: 'SearchPage',
+  computed: {
+    currentUser() {
+      const store = useStore();
+      return store.state.currentUser;
+    },
+  },
   setup() {
     const users = useLoadUsers(); 
     const nowPlayingMovies = ref([]);

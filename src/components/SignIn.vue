@@ -24,26 +24,30 @@
   import {auth} from '@/firebase'
   import {signInWithEmailAndPassword} from 'firebase/auth'
   import { useRouter } from 'vue-router' 
+  import { useStore } from 'vuex';
   const email = ref('')
   const password = ref('')
-  const router = useRouter() 
+  const router = useRouter()
+  const store = useStore(); 
   const signIn = () => {
-    signInWithEmailAndPassword(auth, email.value, password.value) 
-      .then(() => {
-        alert('Successfully logged in!');
-        router.push('/') 
-      })
-      .catch(error => {
-        console.log(error.code)
-        alert(error.message);
-      });
-  }
+  signInWithEmailAndPassword(auth, email.value, password.value)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      store.commit('SET_CURRENT_USER', user); 
+      alert('Successfully logged in!');
+      router.push('/');
+    })
+    .catch((error) => {
+      console.log(error.code);
+      alert(error.message);
+    });
+  };
 </script>
 
 <style>
 .form-group {
-    margin-right: 50px;
-    margin-left: 50px;
+  margin-right: 50px;
+  margin-left: 50px;
 }
 .btn-primary {
   margin-left: 50px!important;
@@ -63,9 +67,10 @@
   color: #ffffff !important;  
 }
 .register-link a {
+  position: relative;
   color: #ffffff!important;
   text-decoration: none;
-  margin-left: 1150px;
+  margin-left: 1085px;
 }
 .register-link a:hover {
   color: #ffc907!important;
