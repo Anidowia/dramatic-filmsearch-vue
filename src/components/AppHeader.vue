@@ -8,7 +8,7 @@
         <li><a href="#">HOME</a></li>
         <li><a href="#">TV SHOWS</a></li>
         <li><a href="#">MOVIES</a></li>
-        <li> <router-link to="/aaa"><a href="#">NEW</a></router-link></li> 
+        <li> <router-link to="/discuss"><a href="#">DISCUSS</a></router-link></li> 
         <li>
           <form class="search-form" @submit.prevent="searchMovies">
             <input type="text" v-model="searchQuery" placeholder="Search">

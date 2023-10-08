@@ -28,6 +28,13 @@ const routes = [
      props: true,
   },
   {
+    path: '/discuss',
+    name: 'DiscussPage',
+     component: () =>
+     import('@/components/DiscussPage.vue'),
+     props: true,
+  },
+  {
     path: '/film/:id',
     name: 'FilmPage',
     component: () =>
