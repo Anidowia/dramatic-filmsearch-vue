@@ -178,6 +178,7 @@ export default {
     },
     toggleChatbox() {
       this.showChatbox = !this.showChatbox;
+      event('login', { method: 'Google' });
     },
     submitForm() {
       const chatCollection = collection(db, 'chats'); 
