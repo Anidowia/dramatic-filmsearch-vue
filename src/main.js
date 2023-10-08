@@ -7,7 +7,7 @@ import VueGtag from "vue-gtag";
 const app = createApp(App);
 
 app.use(VueGtag, {
-  config: { id: "G-FJQSM3X19C" },
+  config: { id: "G-FQ11FB22LJ" },
   params: { anonymize_ip: true }
 });
 
