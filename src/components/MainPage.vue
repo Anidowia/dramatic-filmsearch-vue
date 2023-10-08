@@ -116,6 +116,7 @@ import { collection, addDoc } from 'firebase/firestore';
 import { searchMovies, getNowPlayingMovies, getMostPopularMovieOrTVShow } from '@/api';
 import { ref } from 'vue'; 
 import { useStore } from 'vuex';
+import { event } from 'vue-gtag';
 export default {
   name: 'SearchPage',
   computed: {
@@ -190,6 +191,7 @@ export default {
         this.email = '';
         this.message = '';
         alert('Successfully sent!');
+        event('login', { method: 'Google' });
       })
       .catch((error) => {
         console.error('Error adding chat message:', error);
