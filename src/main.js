@@ -10,13 +10,6 @@ const app = createApp(App);
 app.use(router); 
 
 app.use(
-    VueGtag({
-      id: "G-PWV2M91GF2",
-      vueRouter: router
-    })
-  );
-
-app.use(
     createGtm({
       id: "GTM-WLJPV9H4",
       vueRouter: router
