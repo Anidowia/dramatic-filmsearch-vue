@@ -4,10 +4,18 @@ import './assets/sass/style.css';
 import router from './router';
 import store from './store';
 import { createGtm } from '@gtm-support/vue-gtm';
-
+import VueGtag from 'vue-gtag'
 const app = createApp(App);
 
 app.use(router); 
+
+app.use(
+    VueGtag({
+      id: "G-PWV2M91GF2",
+      vueRouter: router
+    })
+  );
+
 app.use(
     createGtm({
       id: "GTM-WLJPV9H4",
