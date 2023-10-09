@@ -4,7 +4,6 @@ import './assets/sass/style.css';
 import router from './router';
 import store from './store';
 import { createGtm } from '@gtm-support/vue-gtm';
-import VueGtag from 'vue-gtag'
 const app = createApp(App);
 
 app.use(router); 
