@@ -4,8 +4,8 @@ import './assets/sass/style.css';
 import router from './router';
 import store from './store';
 import { createGtm } from '@gtm-support/vue-gtm';
-const app = createApp(App);
 
+const app = createApp(App);
 app.use(router); 
 
 app.use(
