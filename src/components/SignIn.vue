@@ -25,6 +25,7 @@
   import {signInWithEmailAndPassword} from 'firebase/auth'
   import { useRouter } from 'vue-router' 
   import { useStore } from 'vuex';
+  import { useGtm } from '@gtm-support/vue-gtm';
   const email = ref('')
   const password = ref('')
   const router = useRouter()
@@ -36,6 +37,10 @@
       store.commit('SET_CURRENT_USER', user); 
       alert('Successfully logged in!');
       router.push('/');
+      const gtm = useGtm()
+      gtm.trackEvent({
+        event: 'sign-in'
+      })
     })
     .catch((error) => {
       console.log(error.code);

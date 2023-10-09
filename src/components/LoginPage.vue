@@ -24,31 +24,37 @@
   import { createUserWithEmailAndPassword } from 'firebase/auth'
   import { useRouter } from 'vue-router'
   import { useStore } from 'vuex' 
+  import { useGtm } from '@gtm-support/vue-gtm';
   const email = ref('')
   const password = ref('')
   const router = useRouter()
   const store = useStore() 
   const register = () => {
-    createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then(() => {
-        alert('Successfully registered!');
-        router.push('/');
-        store.dispatch('addNotification', {
-          message: 'Successfully registered!',
-          type: 'success', 
-        });
-        console.log(store.state.notifications);
-      })
-      .catch(error => {
-        console.log(error.code)
-        alert(error.message);
-        
-        store.dispatch('addNotification', {
-          message: error.message,
-          type: 'error',
-        });
+  createUserWithEmailAndPassword(auth, email.value, password.value)
+    .then(() => {
+      alert('Successfully registered!');
+      router.push('/');
+      store.dispatch('addNotification', {
+        message: 'Successfully registered!',
+        type: 'success',
       });
-  }
+      console.log(store.state.notifications);
+
+      const gtm = useGtm();
+      gtm.trackEvent({
+        event: 'login',
+      });
+    })
+    .catch((error) => {
+      console.log(error.code);
+      alert(error.message);
+
+      store.dispatch('addNotification', {
+        message: error.message,
+        type: 'error',
+      });
+    });
+};
 </script>
 
 <style>
