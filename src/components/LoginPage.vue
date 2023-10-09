@@ -38,8 +38,8 @@
         message: 'Successfully registered!',
         type: 'success',
       });
+      console.log("store states:");
       console.log(store.state.notifications);
-
       const gtm = useGtm();
       gtm.trackEvent({
         event: 'login',
