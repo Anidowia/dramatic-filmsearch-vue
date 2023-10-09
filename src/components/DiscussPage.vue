@@ -1,6 +1,6 @@
 <template>
   <section class="comments" aria-labelledby="comment">
-    <h2 id="comment">Let the others know your opinion!</h2>
+    <h2 id="comment">Let the others know what you think!</h2>
     <Disqus shortname="dramatic-searchfilm" />
   </section>
 </template>
