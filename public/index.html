@@ -17,6 +17,12 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script src="https://consent.cookiefirst.com/sites/dramatic-filmsearch-vue.vercel.app-e4f8f3ef-60fc-4829-a0eb-5fe6899f0b2e/consent.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWV2M91GF2"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWV2M91GF2');
+    </script>
   </head>
   <body>
     <noscript>
