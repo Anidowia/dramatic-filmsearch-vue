@@ -32,6 +32,18 @@ app.get('/showUsers', async (req, res) => {
     }
 });
 
+app.get('/user/:uid', async (req, res) => {
+  const uid = req.params.uid; // Получаем UID из параметров запроса
+
+  try {
+      const userRecord = await admin.auth().getUser(uid);
+      res.json({ success: true, user: userRecord });
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+      res.status(500).json({ success: false, error: 'Error fetching user data' });
+  }
+});
+
 app.post('/addUser', async (req, res) => {
     try {
       const userData = req.body; 
