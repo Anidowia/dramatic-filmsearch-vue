@@ -1,4 +1,5 @@
 <template>
+  
   <div class = "film-page">
     <div class="intro-image">
       <div class="image-container">
@@ -25,7 +26,7 @@
             <p class="movie-year">{{ getMovieYear(movie.release_date) }}</p>
             <div class="movie-rating">
               <img src="../assets/rating.png" alt="Rating" class="rating-image">
-              {{ movie.vote_average }}
+              {{ Math.round(movie.vote_average * 10) / 10 }}
             </div>
           </div>
         </li>
@@ -80,7 +81,7 @@
             <p class="movie-year">{{ getMovieYear(movie.release_date) }}</p>
             <p class="movie-rating">
               <img src="../assets/rating.png" alt="Rating" class="rating-image">
-              {{ movie.vote_average }}
+              {{ Math.round(movie.vote_average * 10) / 10 }}
             </p>
           </div>
         </li>

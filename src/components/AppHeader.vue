@@ -5,10 +5,10 @@
     </router-link>
     <nav class="navigation">
       <ul>
-        <li><a href="#">HOME</a></li>
-        <li><a href="#">TV SHOWS</a></li>
+        <li> <router-link to="/"><a>HOME</a></router-link></li> 
+        <li> <router-link to="/tvshow"><a>TV SHOWS</a></router-link></li> 
         <li><a href="#">MOVIES</a></li>
-        <li> <router-link to="/discuss"><a href="#">DISCUSS</a></router-link></li> 
+        <li> <router-link to="/discuss"><a>DISCUSS</a></router-link></li> 
         <li>
           <form class="search-form" @submit.prevent="searchMovies">
             <input type="text" v-model="searchQuery" placeholder="Search">

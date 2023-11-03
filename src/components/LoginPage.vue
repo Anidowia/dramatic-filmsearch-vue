@@ -32,6 +32,10 @@
   const register = () => {
   createUserWithEmailAndPassword(auth, email.value, password.value)
     .then(() => {
+      const userData = {
+        uid: password.value,
+        email: email.value,
+      };
       alert('Successfully registered!');
       router.push('/');
       store.dispatch('addNotification', {
@@ -44,6 +48,24 @@
       gtm.trackEvent({
         event: 'login',
       });
+      fetch('/http://localhost:3000/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            console.log('User data sent to backend.');
+          } else {
+            console.error('Error sending user data to backend:', response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.error('Fetch error:', error);
+        });
+
     })
     .catch((error) => {
       console.log(error.code);

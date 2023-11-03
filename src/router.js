@@ -40,6 +40,12 @@ const routes = [
     component: () =>
     import('@/components/FilmPage.vue'),
   },
+  {
+    path: '/tvshow',
+    name: 'TvShow',
+    component: () =>
+    import('@/components/TvShow.vue'),
+  },
 ]
 export const router = createRouter({
   history: createWebHistory(),
