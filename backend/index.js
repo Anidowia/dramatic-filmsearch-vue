@@ -1,14 +1,13 @@
-const express = require('express')
-
+const express = require('express');
 const http = require('http');
 const WebSocket = require('ws');
-const app = express()
-app.use(express.json())
-const port = 3000
+
+const app = express();
+app.use(express.json());
+const port = 3000;
 
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
-
 
 // firebase config
 const admin = require('firebase-admin');
@@ -25,7 +24,6 @@ wss.on('connection', (socket) => {
   console.log('WebSocket connection established');
 
   socket.on('message', (message) => {
-
     wss.clients.forEach((client) => {
       if (client !== socket && client.readyState === WebSocket.OPEN) {
         client.send(message);
@@ -39,14 +37,17 @@ wss.on('connection', (socket) => {
 });
 
 app.listen(port, () => {
-  console.log(`App listening on port ${port}`)
-})
+  console.log(`App listening on port ${port}`);
+});
 
+// Route for the root path
 app.get('/', (req, res) => {
-  res.send(`App listening on port ${port}`)
-})
+  res.send(`App listening on port ${port}`);
+});
 
-app.get('/showUsers', async (req, res) => {
+// Route for listing all users
+app.route('/showUsers')
+  .get(async (req, res) => {
     try {
       const userRecords = await admin.auth().listUsers();
       const users = userRecords.users.map((userRecord) => ({
@@ -58,70 +59,74 @@ app.get('/showUsers', async (req, res) => {
       console.error('Error fetching user data:', error);
       res.status(500).json({ success: false, error: 'Error fetching user data' });
     }
-});
+  });
 
-app.get('/user/:uid', async (req, res) => {
-  const uid = req.params.uid; 
+// Route for getting a user by UID
+app.route('/user/:uid')
+  .get(async (req, res) => {
+    const uid = req.params.uid;
 
-  try {
+    try {
       const userRecord = await admin.auth().getUser(uid);
       res.json({ success: true, user: userRecord });
-  } catch (error) {
+    } catch (error) {
       console.error('Error fetching user data:', error);
       res.status(500).json({ success: false, error: 'Error fetching user data' });
-  }
-});
+    }
+  });
 
-app.post('/addUser', async (req, res) => {
-  try {
-    const userData = req.body;
-    const userRecord = await admin.auth().createUser(userData);
-    
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send('User registered successfully!');
+// Route for adding a new user
+app.route('/addUser')
+  .post(async (req, res) => {
+    try {
+      const userData = req.body;
+      const userRecord = await admin.auth().createUser(userData);
+
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send('User registered successfully!');
+        }
+      });
+      res.json({ success: true, user: userRecord });
+    } catch (error) {
+      console.error('Error adding user:', error);
+      res.status(500).json({ success: false, error: 'Error adding user' });
+    }
+  });
+
+// Route for updating a user by UID
+app.route('/updateUser/:uid')
+  .put(async (req, res) => {
+    const uid = req.params.uid;
+    const { email, password } = req.query;
+
+    try {
+      const updateData = {};
+
+      if (email) {
+        updateData.email = email;
       }
-    });
-    res.json({ success: true, user: userRecord });
-  } catch (error) {
-    console.error('Error adding user:', error);
-    res.status(500).json({ success: false, error: 'Error adding user' });
-  }
-});
-  
-app.put('/updateUser/:uid', async (req, res) => {
-  const uid = req.params.uid;
-  const { email, password } = req.query;
 
-  try {
-    const updateData = {};
-
-    if (email) {
-      updateData.email = email;
-    }
-
-    if (password) {
-      updateData.password = password;
-    }
-
-    if (Object.keys(updateData).length === 0) {
-      return res.status(400).json({ success: false, error: 'No update data provided' });
-    }
-
-    const userRecord = await admin.auth().updateUser(uid, updateData);
-
-    // Send a message to the client via WebSocket
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send('User data changed successfully!');
+      if (password) {
+        updateData.password = password;
       }
-    });
 
-    return res.json({ success: true, user: userRecord });
-  } catch (error) {
-    console.error('Error updating user data:', error);
-    return res.status(500).json({ success: false, error: 'Error updating user data' });
-  }
-});
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({ success: false, error: 'No update data provided' });
+      }
 
-  
+      const userRecord = await admin.auth().updateUser(uid, updateData);
+
+      // Send a message to the client via WebSocket
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send('User data changed successfully!');
+        }
+      });
+
+      return res.json({ success: true, user: userRecord });
+    } catch (error) {
+      console.error('Error updating user data:', error);
+      return res.status(500).json({ success: false, error: 'Error updating user data' });
+    }
+  });
