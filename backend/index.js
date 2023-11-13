@@ -33,7 +33,7 @@ app.get('/showUsers', async (req, res) => {
 });
 
 app.get('/user/:uid', async (req, res) => {
-  const uid = req.params.uid; // Получаем UID из параметров запроса
+  const uid = req.params.uid; 
 
   try {
       const userRecord = await admin.auth().getUser(uid);
@@ -55,4 +55,33 @@ app.post('/addUser', async (req, res) => {
     }
   });
   
+  app.put('/updateUser/:uid', async (req, res) => {
+    const uid = req.params.uid;
+    const { email, password } = req.query;
+  
+    try {
+      const updateData = {};
+  
+      if (email) {
+        updateData.email = email;
+      }
+  
+      if (password) {
+        updateData.password = password;
+      }
+  
+      if (Object.keys(updateData).length === 0) {
+        // Если ни одно поле не передано для обновления, возвращаем ошибку
+        res.status(400).json({ success: false, error: 'No update data provided' });
+        return;
+      }
+  
+      const userRecord = await admin.auth().updateUser(uid, updateData);
+  
+      res.json({ success: true, user: userRecord });
+    } catch (error) {
+      console.error('Error updating user data:', error);
+      res.status(500).json({ success: false, error: 'Error updating user data' });
+    }
+  });
   
