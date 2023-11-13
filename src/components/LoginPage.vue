@@ -25,58 +25,39 @@
   import { useRouter } from 'vue-router'
   import { useStore } from 'vuex' 
   import { useGtm } from '@gtm-support/vue-gtm';
+  import { io } from 'socket.io-client';
+
+  const socket = io('http://localhost:3001'); 
   const email = ref('')
   const password = ref('')
+  const check = ref(false)
   const router = useRouter()
   const store = useStore() 
   const register = () => {
-  createUserWithEmailAndPassword(auth, email.value, password.value)
-    .then(() => {
-      const userData = {
-        uid: password.value,
-        email: email.value,
-      };
-      alert('Successfully registered!');
-      router.push('/');
-      store.dispatch('addNotification', {
-        message: 'Successfully registered!',
-        type: 'success',
-      });
-      console.log("store states:");
-      console.log(store.state.notifications);
-      const gtm = useGtm();
-      gtm.trackEvent({
-        event: 'login',
-      });
-      fetch('/http://localhost:3000/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      })
-        .then((response) => {
-          if (response.ok) {
-            console.log('User data sent to backend.');
-          } else {
-            console.error('Error sending user data to backend:', response.statusText);
-          }
-        })
-        .catch((error) => {
-          console.error('Fetch error:', error);
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+      .then(() => {
+        socket.send('Hello from the client!');
+        alert('Successfully registered!');
+        router.push('/');
+        store.dispatch('addNotification', {
+          message: 'Successfully registered!',
+          type: 'success',
         });
-
-    })
-    .catch((error) => {
-      console.log(error.code);
-      alert(error.message);
-
-      store.dispatch('addNotification', {
-        message: error.message,
-        type: 'error',
+        console.log("store states:");
+        console.log(store.state.notifications);
+        const gtm = useGtm();
+        gtm.trackEvent({
+          event: 'login',
+        });
+      })
+      .catch((error) => {
+        console.error('Error registering user:', error);
+        alert('Error registering user');
       });
-    });
-};
+  };
+  socket.on('message', (message) => {
+    console.log(`Received message from server: ${message}`);
+  });
 </script>
 
 <style>
