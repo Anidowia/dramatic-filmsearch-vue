@@ -1,29 +1,43 @@
 <template>
   <header class="header">
     <router-link to="/">
-      <img src="../assets/dramatic.png" alt="Logo" class="logo">
+      <img src="../assets/dramatic.png" alt="Logo" class="logo" />
     </router-link>
     <nav class="navigation">
       <ul>
-        <li> <router-link to="/"><a>HOME</a></router-link></li> 
-        <li> <router-link to="/tvshow"><a>TV SHOWS</a></router-link></li> 
+        <li>
+          <router-link to="/"><a>HOME</a></router-link>
+        </li>
+        <li>
+          <router-link to="/tvshow"><a>TV SHOWS</a></router-link>
+        </li>
         <li><a href="#">MOVIES</a></li>
-        <li> <router-link to="/discuss"><a>DISCUSS</a></router-link></li> 
+        <li>
+          <router-link to="/discuss"><a>DISCUSS</a></router-link>
+        </li>
         <li>
           <form class="search-form" @submit.prevent="searchMovies">
-            <input type="text" v-model="searchQuery" placeholder="Search">
+            <input type="text" v-model="searchQuery" placeholder="Search" />
             <router-link :to="{ path: '/search', query: { q: searchQuery } }">
-              <img src="../assets/search.png" alt="Search icon" class="search-icon">
+              <img
+                src="../assets/search.png"
+                alt="Search icon"
+                class="search-icon"
+              />
             </router-link>
           </form>
         </li>
         <li class="btn-wrapper">
-        <span v-if="isLoggedIn">
-          <router-link to="/sign" @click="signOut" class="btn btn-outline"> LOGOUT </router-link>
-        </span>
-        <span v-else>
-        <router-link to="/sign" class="btn btn-outline"> LOGIN </router-link>
-      </span>
+          <span v-if="isLoggedIn">
+            <router-link to="/sign" @click="signOut" class="btn btn-outline">
+              LOGOUT
+            </router-link>
+          </span>
+          <span v-else>
+            <router-link to="/sign" class="btn btn-outline">
+              LOGIN
+            </router-link>
+          </span>
         </li>
       </ul>
     </nav>
@@ -31,43 +45,48 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { onAuthStateChanged } from 'firebase/auth';
-import {auth} from '@/firebase'
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
 
-const router = useRouter()
-const isLoggedIn = ref(false)
+const router = useRouter();
+const isLoggedIn = ref(false);
 
 onAuthStateChanged(auth, function (user) {
   if (user) {
-    isLoggedIn.value = true
+    isLoggedIn.value = true;
   } else {
-    isLoggedIn.value = false
+    isLoggedIn.value = false;
   }
-})
+});
 
 const signOut = () => {
-  auth.signOut()
+  auth
+    .signOut()
     .then(() => {
-      router.push('/');
+      router.push("/");
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error.code);
     });
 };
 
-const searchQuery = ref('')
+const searchQuery = ref("");
 const searchMovies = () => {
-  router.push({ name: 'SearchResult', query: { q: searchQuery.value } })
-}
+  router.push({ name: "SearchResult", query: { q: searchQuery.value } });
+};
 </script>
 
 <style>
 .header {
   width: 100%;
   height: 93px;
-  background: linear-gradient(90.53deg, rgba(0, 0, 0, 0.75) 0.45%, rgba(102, 80, 165, 0.75) 105.51%);
+  background: linear-gradient(
+    90.53deg,
+    rgba(0, 0, 0, 0.75) 0.45%,
+    rgba(102, 80, 165, 0.75) 105.51%
+  );
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
   display: flex;
   justify-content: space-between;
@@ -119,7 +138,7 @@ const searchMovies = () => {
 
 .navigation ul li a.active,
 .navigation ul li a:hover {
-  color: #FFC907;
+  color: #ffc907;
 }
 
 .navigation ul li:not(:first-child) a {
@@ -127,13 +146,13 @@ const searchMovies = () => {
 }
 
 .navigation ul li a::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -5px;
   left: 0;
   width: 100%;
   height: 2px;
-  background-color: #FFC907;
+  background-color: #ffc907;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.3s ease-out;
@@ -166,14 +185,14 @@ const searchMovies = () => {
   cursor: pointer;
 }
 .search-form input[type="text"] {
-  position: relative; 
+  position: relative;
   width: 200px;
   height: 37px;
-  background-color: #3B567D;
+  background-color: #3b567d;
   color: #fff;
   border: none;
   border-radius: 18.5px;
-  padding: 0 40px 0 10px; 
+  padding: 0 40px 0 10px;
 }
 
 .search-icon {
@@ -185,11 +204,11 @@ const searchMovies = () => {
 }
 
 .search-form input[type="text"]::placeholder {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 700;
   line-height: 20px;
-  color: #A2B3CD;
+  color: #a2b3cd;
 }
 
 .btn-outline {
@@ -199,8 +218,8 @@ const searchMovies = () => {
   background-color: #ffc907 !important;
   font-weight: bold;
   border-radius: 18.5px !important;
-  line-height: 30px!important; 
-  text-align: center!important;
+  line-height: 30px !important;
+  text-align: center !important;
 }
 
 .btn-outline:hover,
@@ -208,9 +227,9 @@ const searchMovies = () => {
 .btn-outline:focus,
 .btn-outline.active {
   background: #000 !important;
-  color: #ffffff !important;  
+  color: #ffffff !important;
 }
 .btn-wrapper {
-  margin-left: auto; 
+  margin-left: auto;
 }
 </style>

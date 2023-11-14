@@ -1,5 +1,5 @@
 <template>
-  <div id = "app">
+  <div id="app">
     <AppHeader />
     <router-view />
     <AppFooter />
@@ -7,27 +7,27 @@
 </template>
 
 <script>
-import AppHeader from './components/AppHeader.vue'
-import AppFooter from './components/AppFooter.vue'
+import AppHeader from "./components/AppHeader.vue";
+import AppFooter from "./components/AppFooter.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     AppHeader,
-    AppFooter
-  }
-}
+    AppFooter,
+  },
+};
 </script>
 
 <style>
 #app {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
-  color: #FFFFFF !important;; 
+  color: #ffffff !important;
   min-height: 100%;
   display: flex;
   flex-direction: column;
@@ -35,6 +35,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
 }
 body {
-  background-color: black !important; 
+  background-color: black !important;
 }
 </style>

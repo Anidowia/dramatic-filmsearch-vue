@@ -1,9 +1,9 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
     currentUser: null,
-    notifications: [], 
+    notifications: [],
   },
   mutations: {
     SET_CURRENT_USER(state, user) {
@@ -21,10 +21,10 @@ export default createStore({
   },
   actions: {
     addNotification({ commit }, notification) {
-      commit('ADD_NOTIFICATION', notification);
+      commit("ADD_NOTIFICATION", notification);
     },
     removeNotification({ commit }, notification) {
-      commit('REMOVE_NOTIFICATION', notification);
+      commit("REMOVE_NOTIFICATION", notification);
     },
   },
 });

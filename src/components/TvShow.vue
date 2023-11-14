@@ -1,119 +1,379 @@
 <template>
-    <div class="col-xs-6">
-        <ul class="now-playing-movies">
-        <li v-for="movie in movies" :key="movie.id" class="movie-item">
-          <router-link :to="getFilmPageUrl(movie.id)">
-            <div class="movie-image">
-              <img :src="getMoviePosterUrl(movie.poster_path)" alt="Movie Poster">
-            </div>
-          </router-link>
-          <div class="movie-details">
-            <h2 class="movie-title">{{ movie.title }}</h2>
-            <p class="movie-year">{{ getMovieYear(movie.release_date) }}</p>
-            <p class="movie-rating">
-              <img src="../assets/rating.png" alt="Rating" class="rating-image">
-              {{ movie.vote_average }}
-            </p>
+  <div class="col-xs-6">
+    <ul class="now-playing-movies">
+      <li v-for="movie in movies" :key="movie.id" class="movie-item">
+        <router-link :to="getFilmPageUrl(movie.id)">
+          <div class="movie-image">
+            <img
+              :src="getMoviePosterUrl(movie.poster_path)"
+              alt="Movie Poster"
+            />
           </div>
-        </li>
-      </ul> 
+        </router-link>
+        <div class="movie-details">
+          <h2 class="movie-title">{{ movie.title }}</h2>
+          <p class="movie-year">{{ getMovieYear(movie.release_date) }}</p>
+          <p class="movie-rating">
+            <img src="../assets/rating.png" alt="Rating" class="rating-image" />
+            {{ movie.vote_average }}
+          </p>
+        </div>
+      </li>
+    </ul>
     <div class="filter-menu mobile">
-        <h2>POPULAR SERIES</h2>
-        <form >
+      <h2>POPULAR SERIES</h2>
+      <form>
         <div class="panel panel-mobile">
-            <div class="panel-heading" role="tab" id="headingFiltersMobile">
-            <a class="panel-title accordion-toggle" role="button" data-toggle="collapse" href="#collapseFiltersMobile" aria-expanded="false" aria-controls="collapseFiltersMobile">
-                Filter
+          <div class="panel-heading" role="tab" id="headingFiltersMobile">
+            <a
+              class="panel-title accordion-toggle"
+              role="button"
+              data-toggle="collapse"
+              href="#collapseFiltersMobile"
+              aria-expanded="false"
+              aria-controls="collapseFiltersMobile"
+            >
+              Filter
             </a>
             <div class="panel-body">
-                <hr />
-                <button class="btn btn-primary" type="submit" @submit.prevent="applyFilters">Apply Filters</button>
-                <a class="btn btn-sm btn-link pull-right" href="#">Clear Selections</a>
+              <hr />
+              <button
+                class="btn btn-primary"
+                type="submit"
+                @submit.prevent="applyFilters"
+              >
+                Apply Filters
+              </button>
+              <a class="btn btn-sm btn-link pull-right" href="#"
+                >Clear Selections</a
+              >
             </div>
-            </div>
-            <div id="collapseFiltersMobile" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingFiltersMobile">
+          </div>
+          <div
+            id="collapseFiltersMobile"
+            class="panel-collapse collapse in"
+            role="tabpanel"
+            aria-labelledby="headingFiltersMobile"
+          >
             <div class="panel-body">
-                <div class="panel-group" id="filter-menu-mobile" role="tablist" aria-multiselectable="true">
+              <div
+                class="panel-group"
+                id="filter-menu-mobile"
+                role="tablist"
+                aria-multiselectable="true"
+              >
                 <div class="panel panel-mobile">
-                    <div class="panel-heading" role="tab" id="headingOneMobile">
-                    <a class="panel-title accordion-toggle" role="button" data-toggle="collapse" data-parent="#filter-menu-mobile" href="#collapseOneMobile" aria-expanded="true" aria-controls="collapseOneMobile">
-                        Genres
+                  <div class="panel-heading" role="tab" id="headingOneMobile">
+                    <a
+                      class="panel-title accordion-toggle"
+                      role="button"
+                      data-toggle="collapse"
+                      data-parent="#filter-menu-mobile"
+                      href="#collapseOneMobile"
+                      aria-expanded="true"
+                      aria-controls="collapseOneMobile"
+                    >
+                      Genres
                     </a>
-                    </div>
-                    <div id="collapseOneMobile" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOneMobile">
+                  </div>
+                  <div
+                    id="collapseOneMobile"
+                    class="panel-collapse collapse in"
+                    role="tabpanel"
+                    aria-labelledby="headingOneMobile"
+                  >
                     <div class="panel-body">
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="recent_graduate">Comedy</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="imposter_syndrome">Crime</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="wise_old_head">Documentary</label></div> 
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="recent_graduate">Animation</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="recent_graduate">Drama</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="recent_graduate">Family</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="recent_graduate">Kids</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="career_state[]" value="recent_graduate">War & Politics</label></div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="recent_graduate"
+                          />Comedy</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="imposter_syndrome"
+                          />Crime</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="wise_old_head"
+                          />Documentary</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="recent_graduate"
+                          />Animation</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="recent_graduate"
+                          />Drama</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="recent_graduate"
+                          />Family</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="recent_graduate"
+                          />Kids</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="career_state[]"
+                            value="recent_graduate"
+                          />War & Politics</label
+                        >
+                      </div>
                     </div>
-                    </div>
+                  </div>
                 </div>
                 <div class="panel panel-mobile">
-                    <div class="panel-heading" role="tab" id="headingTwoMobile">
-                    <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#filter-menu-mobile" href="#collapseTwoMobile" aria-expanded="false" aria-controls="collapseTwoMobile">
-                        Certification
+                  <div class="panel-heading" role="tab" id="headingTwoMobile">
+                    <a
+                      class="panel-title accordion-toggle collapsed"
+                      role="button"
+                      data-toggle="collapse"
+                      data-parent="#filter-menu-mobile"
+                      href="#collapseTwoMobile"
+                      aria-expanded="false"
+                      aria-controls="collapseTwoMobile"
+                    >
+                      Certification
                     </a>
-                    </div>
-                    <div id="collapseTwoMobile" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwoMobile">
+                  </div>
+                  <div
+                    id="collapseTwoMobile"
+                    class="panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingTwoMobile"
+                  >
                     <div class="panel-body">
-                        <div class="checkbox"><label><input type="checkbox" name="topic[]" value="politics">NR</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="topic[]" value="religion">TV-Y</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="topic[]" value="music">TV-Y7</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="topic[]" value="music">TV-G</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="topic[]" value="music">TV-14</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="topic[]" value="music">TV-MA</label></div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="topic[]"
+                            value="politics"
+                          />NR</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="topic[]"
+                            value="religion"
+                          />TV-Y</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="topic[]"
+                            value="music"
+                          />TV-Y7</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="topic[]"
+                            value="music"
+                          />TV-G</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="topic[]"
+                            value="music"
+                          />TV-14</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="topic[]"
+                            value="music"
+                          />TV-MA</label
+                        >
+                      </div>
                     </div>
-                    </div>
+                  </div>
                 </div>
                 <div class="panel panel-mobile">
-                    <div class="panel-heading" role="tab" id="headingThreeMobile">
-                    <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#filter-menu-mobile" href="#collapseThreeMobile" aria-expanded="false" aria-controls="collapseThreeMobile">
-                        Availabilities
+                  <div class="panel-heading" role="tab" id="headingThreeMobile">
+                    <a
+                      class="panel-title accordion-toggle collapsed"
+                      role="button"
+                      data-toggle="collapse"
+                      data-parent="#filter-menu-mobile"
+                      href="#collapseThreeMobile"
+                      aria-expanded="false"
+                      aria-controls="collapseThreeMobile"
+                    >
+                      Availabilities
                     </a>
-                    </div>
-                    <div id="collapseThreeMobile" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThreeMobile">
+                  </div>
+                  <div
+                    id="collapseThreeMobile"
+                    class="panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingThreeMobile"
+                  >
                     <div class="panel-body">
-                        <div class="checkbox"><label><input type="checkbox" name="format[]" value="magazine">Stream</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="format[]" value="website">Free</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="format[]" value="vine">Ads</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="format[]" value="tweet">Rent</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="format[]" value="tweet">Buy</label></div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="format[]"
+                            value="magazine"
+                          />Stream</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="format[]"
+                            value="website"
+                          />Free</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="format[]"
+                            value="vine"
+                          />Ads</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="format[]"
+                            value="tweet"
+                          />Rent</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="format[]"
+                            value="tweet"
+                          />Buy</label
+                        >
+                      </div>
                     </div>
-                    </div>
+                  </div>
                 </div>
                 <div class="panel panel-mobile">
-                    <div class="panel-heading" role="tab" id="headingFourMobile">
-                    <a class="panel-title accordion-toggle collapsed" role="button" data-toggle="collapse" data-parent="#filter-menu-mobile" href="#collapseFourMobile" aria-expanded="false" aria-controls="collapseFourMobile">
-                        Status
+                  <div class="panel-heading" role="tab" id="headingFourMobile">
+                    <a
+                      class="panel-title accordion-toggle collapsed"
+                      role="button"
+                      data-toggle="collapse"
+                      data-parent="#filter-menu-mobile"
+                      href="#collapseFourMobile"
+                      aria-expanded="false"
+                      aria-controls="collapseFourMobile"
+                    >
+                      Status
                     </a>
-                    </div>
-                    <div id="collapseFourMobile" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFourMobile">
+                  </div>
+                  <div
+                    id="collapseFourMobile"
+                    class="panel-collapse collapse"
+                    role="tabpanel"
+                    aria-labelledby="headingFourMobile"
+                  >
                     <div class="panel-body">
-                        <div class="checkbox"><label><input type="checkbox" name="status[]" value="single">Single</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="status[]" value="married">Married</label></div>
-                        <div class="checkbox"><label><input type="checkbox" name="status[]" value="its_complicated">It's complicated</label></div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="status[]"
+                            value="single"
+                          />Single</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="status[]"
+                            value="married"
+                          />Married</label
+                        >
+                      </div>
+                      <div class="checkbox">
+                        <label
+                          ><input
+                            type="checkbox"
+                            name="status[]"
+                            value="its_complicated"
+                          />It's complicated</label
+                        >
+                      </div>
                     </div>
-                    </div>
+                  </div>
                 </div>
-                </div>
+              </div>
             </div>
-            </div>
+          </div>
         </div>
-        </form>
+      </form>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
-import { searchMovies, getNowPlayingMovies, getMostPopularMovieOrTVShow } from '@/api';
-import { ref } from 'vue'; 
+import {
+  searchMovies,
+  getNowPlayingMovies,
+  getMostPopularMovieOrTVShow,
+} from "@/api";
+import { ref } from "vue";
 export default {
-  name: 'TvShow',
+  name: "TvShow",
   setup() {
     const nowPlayingMovies = ref([]);
     async function fetchNowPlayingMovies() {
@@ -121,7 +381,7 @@ export default {
         const movies = await getNowPlayingMovies();
         nowPlayingMovies.value = movies;
       } catch (error) {
-        console.error('Error fetching now playing movies:', error);
+        console.error("Error fetching now playing movies:", error);
       }
     }
     fetchNowPlayingMovies();
@@ -133,17 +393,17 @@ export default {
     return {
       movies: [],
       mostPopularItem: null,
-      selectedGenres: [], 
-    selectedCertifications: [], 
-    selectedAvailabilities: [], 
-    selectedStatus: [],
+      selectedGenres: [],
+      selectedCertifications: [],
+      selectedAvailabilities: [],
+      selectedStatus: [],
     };
   },
   async mounted() {
     try {
       this.movies = await searchMovies();
     } catch (error) {
-      console.error('Error searching movies:', error);
+      console.error("Error searching movies:", error);
     }
     this.mostPopularItem = await getMostPopularMovieOrTVShow();
   },
@@ -152,62 +412,74 @@ export default {
       if (posterPath) {
         return `https://image.tmdb.org/t/p/w500${posterPath}`;
       }
-      return '';
+      return "";
     },
     getMovieYear(releaseDate) {
       if (releaseDate) {
         return releaseDate.slice(0, 4);
       }
-      return '';
+      return "";
     },
     getFilmPageUrl(id) {
-      return { name: 'FilmPage', params: { id: id } };
-    }
+      return { name: "FilmPage", params: { id: id } };
+    },
   },
   applyFilters() {
     const filteredMovies = this.movies.filter((movie) => {
-    // Фильтрация по жанрам
-    if (this.selectedGenres.length > 0 && !this.selectedGenres.includes(movie.genre)) {
-      return false;
-    }
-    // Фильтрация по сертификации (certification)
-    if (this.selectedCertifications.length > 0 && !this.selectedCertifications.includes(movie.certification)) {
-      return false;
-    }
-    // Фильтрация по доступности (availability)
-    if (this.selectedAvailabilities.length > 0 && !this.selectedAvailabilities.includes(movie.availability)) {
-      return false;
-    }
-    // Фильтрация по статусу
-    if (this.selectedStatus.length > 0 && !this.selectedStatus.includes(movie.status)) {
-      return false;
-    }
-    return true; // Если фильм соответствует всем выбранным фильтрам
-  });
+      // Фильтрация по жанрам
+      if (
+        this.selectedGenres.length > 0 &&
+        !this.selectedGenres.includes(movie.genre)
+      ) {
+        return false;
+      }
+      // Фильтрация по сертификации (certification)
+      if (
+        this.selectedCertifications.length > 0 &&
+        !this.selectedCertifications.includes(movie.certification)
+      ) {
+        return false;
+      }
+      // Фильтрация по доступности (availability)
+      if (
+        this.selectedAvailabilities.length > 0 &&
+        !this.selectedAvailabilities.includes(movie.availability)
+      ) {
+        return false;
+      }
+      // Фильтрация по статусу
+      if (
+        this.selectedStatus.length > 0 &&
+        !this.selectedStatus.includes(movie.status)
+      ) {
+        return false;
+      }
+      return true; // Если фильм соответствует всем выбранным фильтрам
+    });
 
-  // Обновите список фильмов
-  this.movies = filteredMovies;
+    // Обновите список фильмов
+    this.movies = filteredMovies;
   },
 };
 </script>
 
 <style>
-.filter-menu  {
-    margin-left: 50px; 
-    margin-right: 50px; 
+.filter-menu {
+  margin-left: 50px;
+  margin-right: 50px;
 }
 /*** Accordion Toggles ***/
 .panel-heading {
   position: relative;
 }
 .panel-heading .accordion-toggle:after {
-  font-family: 'Glyphicons Halflings';
+  font-family: "Glyphicons Halflings";
   content: "\e260";
   position: absolute;
   right: 16px;
 }
 .panel-heading .accordion-toggle.collapsed:after {
-  font-family: 'Glyphicons Halflings';
+  font-family: "Glyphicons Halflings";
   content: "\e259";
 }
 /*** Filter Menu ***/
@@ -260,16 +532,20 @@ export default {
 }
 .filter-menu.mobile hr {
   margin-top: 0;
-  border-top-color: #4B6473;
+  border-top-color: #4b6473;
 }
 .filter-menu.mobile .panel {
-    width: 40vh;
+  width: 40vh;
 }
-.filter-menu.mobile .panel-group .panel-heading + .panel-collapse > .panel-body {
-  border-color: #4B6473;
+.filter-menu.mobile
+  .panel-group
+  .panel-heading
+  + .panel-collapse
+  > .panel-body {
+  border-color: #4b6473;
 }
 .filter-menu.mobile .panel {
-  border-color: #4B6473;
+  border-color: #4b6473;
   background: #30404a;
   color: #f9f9f9;
 }
@@ -283,7 +559,7 @@ export default {
   color: #f9f9f9;
 }
 .filter-menu.mobile .panel-group .panel {
-  border-color: #4B6473;
+  border-color: #4b6473;
 }
 .filter-menu.mobile .panel-group .panel-title {
   background: #3f5460;
@@ -292,7 +568,6 @@ export default {
   color: #f9f9f9;
   background: #30404a;
 }
-
 
 .movie-list {
   display: flex;
@@ -333,7 +608,7 @@ export default {
 }
 
 .movie-title {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 19px;
   line-height: 20px;
@@ -344,7 +619,7 @@ export default {
 }
 
 .movie-rating {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 15px;
   line-height: 13px;
@@ -358,7 +633,7 @@ export default {
 }
 .movie-year {
   margin-bottom: 2px;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 13px;
   line-height: 13px;
@@ -366,10 +641,10 @@ export default {
 }
 
 .now-playing-movies {
-    position: absolute;
+  position: absolute;
   list-style-type: disc;
   margin-left: 422px !important;
-  margin-top: 45px ;
+  margin-top: 45px;
 }
 
 .btn-primary {
@@ -383,8 +658,7 @@ export default {
 .btn-primary:focus,
 .btn-primary.active {
   background: #000 !important;
-  color: #ffffff !important;  
+  color: #ffffff !important;
   border-color: #eee !important;
 }
-
 </style>

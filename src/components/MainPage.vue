@@ -1,86 +1,104 @@
 <template>
-  
-  <div class = "film-page">
+  <div class="film-page">
     <div class="intro-image">
       <div class="image-container">
-        <img :src="mostPopularItem.poster_path" alt="Most Popular Item Poster" v-if="mostPopularItem">
+        <img
+          :src="mostPopularItem.poster_path"
+          alt="Most Popular Item Poster"
+          v-if="mostPopularItem"
+        />
         <div class="text-over-image">
-          <h1>Welcome.</h1> 
-          <h2>Millions of movies, TV shows and people to discover. Explore now.</h2>
+          <h1>Welcome.</h1>
+          <h2>
+            Millions of movies, TV shows and people to discover. Explore now.
+          </h2>
         </div>
       </div>
     </div>
     <h1>MOVIES YOU MUST WATCH</h1>
-    <h2 v-if="currentUser">Welcome, {{ currentUser.email }}. <router-link to="/"></router-link></h2>
+    <h2 v-if="currentUser">
+      Welcome, {{ currentUser.email }}. <router-link to="/"></router-link>
+    </h2>
     <h2 v-for="user in users" :key="user.id">dear {{ user.email }}</h2>
     <div class="carousel">
       <ul class="movie-list">
         <li v-for="movie in movies" :key="movie.id" class="movie-item">
           <router-link :to="getFilmPageUrl(movie.id)">
             <div class="movie-image">
-              <img :src="getMoviePosterUrl(movie.poster_path)" alt="Movie Poster">
+              <img
+                :src="getMoviePosterUrl(movie.poster_path)"
+                alt="Movie Poster"
+              />
             </div>
           </router-link>
           <div class="movie-details">
             <h2 class="movie-title">{{ movie.title }}</h2>
             <p class="movie-year">{{ getMovieYear(movie.release_date) }}</p>
             <div class="movie-rating">
-              <img src="../assets/rating.png" alt="Rating" class="rating-image">
+              <img
+                src="../assets/rating.png"
+                alt="Rating"
+                class="rating-image"
+              />
               {{ Math.round(movie.vote_average * 10) / 10 }}
             </div>
           </div>
         </li>
       </ul>
       <h1>JOIN TODAY</h1>
-      <h3>Get access to maintain your own custom personal lists, track what you've seen and search and filter for what to watch 
-      <br>next—regardless if it's in theatres, on TV or available on popular streaming services like Netflix, Disney Plus, 
-      <br>Amazon Prime Video, Hayu, and Crave.
-      <ul>
-        <li>
-          <h4>
-            Enjoy TMDB ad free
-          </h4>
-        </li>
-        <li>
-          <h4>
-            Maintain a personal watchlist
-          </h4>
-        </li>
-        <li>
-          <h4>
-            Filter by your subscribed streaming services and find something to watch
-          </h4>
-        </li>
-        <li>
-          <h4>
-            Log the movies and TV shows you've seen
-          </h4>
-        </li>
-        <li>
-          <h4>
-            Build custom lists
-          </h4>
-        </li>
-        <li>
-          <h4>
-            Contribute to and improve our database
-          </h4>
-        </li>
-      </ul>
+      <h3>
+        Get access to maintain your own custom personal lists, track what you've
+        seen and search and filter for what to watch <br />next—regardless if
+        it's in theatres, on TV or available on popular streaming services like
+        Netflix, Disney Plus, <br />Amazon Prime Video, Hayu, and Crave.
+        <ul>
+          <li>
+            <h4>Enjoy TMDB ad free</h4>
+          </li>
+          <li>
+            <h4>Maintain a personal watchlist</h4>
+          </li>
+          <li>
+            <h4>
+              Filter by your subscribed streaming services and find something to
+              watch
+            </h4>
+          </li>
+          <li>
+            <h4>Log the movies and TV shows you've seen</h4>
+          </li>
+          <li>
+            <h4>Build custom lists</h4>
+          </li>
+          <li>
+            <h4>Contribute to and improve our database</h4>
+          </li>
+        </ul>
       </h3>
       <h1>NOW IN CINEMAS</h1>
       <ul class="now-playing-movies">
-        <li v-for="movie in nowPlayingMovies" :key="movie.id" class="movie-item">
+        <li
+          v-for="movie in nowPlayingMovies"
+          :key="movie.id"
+          class="movie-item"
+        >
           <router-link :to="getFilmPageUrl(movie.id)">
             <div class="movie-image">
-              <img :src="getMoviePosterUrl(movie.poster_path)" alt="Movie Poster">
+              <img
+                :src="getMoviePosterUrl(movie.poster_path)"
+                alt="Movie Poster"
+              />
             </div>
           </router-link>
           <div class="movie-details">
             <h2 class="movie-title">{{ movie.title }}</h2>
             <p class="movie-year">{{ getMovieYear(movie.release_date) }}</p>
             <p class="movie-rating">
-              <img src="../assets/rating.png" alt="Rating" class="rating-image">
+              <img
+                src="../assets/rating.png"
+                alt="Rating"
+                class="rating-image"
+              />
               {{ Math.round(movie.vote_average * 10) / 10 }}
             </p>
           </div>
@@ -100,10 +118,26 @@
             <span>Please fill out the form to start chat!</span>
           </div>
           <div class="chat-form">
-            <input type="text" class="form-control" placeholder="Name" v-model="name">
-            <input type="text" class="form-control" placeholder="Email" v-model="email">
-            <textarea class="form-control" placeholder="Your Text Message" v-model="message"></textarea>
-            <button @click="submitForm" class="btn btn-success btn-block">Submit</button>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Name"
+              v-model="name"
+            />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Email"
+              v-model="email"
+            />
+            <textarea
+              class="form-control"
+              placeholder="Your Text Message"
+              v-model="message"
+            ></textarea>
+            <button @click="submitForm" class="btn btn-success btn-block">
+              Submit
+            </button>
           </div>
         </div>
       </div>
@@ -112,13 +146,17 @@
 </template>
 
 <script>
-import { useLoadUsers, db } from '@/firebase'; 
-import { collection, addDoc } from 'firebase/firestore';
-import { searchMovies, getNowPlayingMovies, getMostPopularMovieOrTVShow } from '@/api';
-import { ref } from 'vue'; 
-import { useStore } from 'vuex';
+import { useLoadUsers, db } from "@/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import {
+  searchMovies,
+  getNowPlayingMovies,
+  getMostPopularMovieOrTVShow,
+} from "@/api";
+import { ref } from "vue";
+import { useStore } from "vuex";
 export default {
-  name: 'SearchPage',
+  name: "SearchPage",
   computed: {
     currentUser() {
       const store = useStore();
@@ -126,14 +164,14 @@ export default {
     },
   },
   setup() {
-    const users = useLoadUsers(); 
+    const users = useLoadUsers();
     const nowPlayingMovies = ref([]);
     async function fetchNowPlayingMovies() {
       try {
         const movies = await getNowPlayingMovies();
         nowPlayingMovies.value = movies;
       } catch (error) {
-        console.error('Error fetching now playing movies:', error);
+        console.error("Error fetching now playing movies:", error);
       }
     }
     fetchNowPlayingMovies();
@@ -147,16 +185,16 @@ export default {
       movies: [],
       mostPopularItem: null,
       showChatbox: false,
-      name: '',
-      email: '',
-      message: '',
+      name: "",
+      email: "",
+      message: "",
     };
   },
   async mounted() {
     try {
       this.movies = await searchMovies();
     } catch (error) {
-      console.error('Error searching movies:', error);
+      console.error("Error searching movies:", error);
     }
     this.mostPopularItem = await getMostPopularMovieOrTVShow();
   },
@@ -165,37 +203,49 @@ export default {
       if (posterPath) {
         return `https://image.tmdb.org/t/p/w500${posterPath}`;
       }
-      return '';
+      return "";
     },
     getMovieYear(releaseDate) {
       if (releaseDate) {
         return releaseDate.slice(0, 4);
       }
-      return '';
+      return "";
     },
     getFilmPageUrl(id) {
-      return { name: 'FilmPage', params: { id: id } };
+      return { name: "FilmPage", params: { id: id } };
     },
     toggleChatbox() {
       this.showChatbox = !this.showChatbox;
     },
     submitForm() {
-      const chatCollection = collection(db, 'chats'); 
-      addDoc(chatCollection, {
-        name: this.name,
-        email: this.email,
-        message: this.message,
-      })
-      .then(() => {
-        this.name = '';
-        this.email = '';
-        this.message = '';
-        alert('Successfully sent!');
-      })
-      .catch((error) => {
-        console.error('Error adding chat message:', error);
-      });
-    }
+      if (this.name && this.email && this.message) {
+        const messageData = {
+          text: this.message, // Adjust this line to match the key expected by the server
+          name: this.name,
+          email: this.email,
+        };
+
+        const chatboxCollection = collection(db, "chatbox");
+        addDoc(chatboxCollection, messageData); // Save the message to Firestore
+
+        fetch("http://localhost:3000/addMessage", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(messageData),
+        })
+          .then(() => {
+            alert("Sent successfully!");
+            this.name = "";
+            this.email = "";
+            this.message = "";
+          })
+          .catch((error) => {
+            console.error("Error while sending:", error);
+          });
+      }
+    },
   },
 };
 </script>
@@ -205,9 +255,9 @@ export default {
   margin-right: 15px;
 }
 .image-container {
-  width: 100%; 
-  height: 350px; 
-  overflow: hidden; 
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
 }
 .text-over-image {
   position: relative;
@@ -215,39 +265,40 @@ export default {
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: white; 
-  padding: 20px; 
-  z-index: 2; 
+  color: white;
+  padding: 20px;
+  z-index: 2;
 }
-.text-over-image h1, h2{
-font-weight: bold;
+.text-over-image h1,
+h2 {
+  font-weight: bold;
 }
 .image-container::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 93px;
   left: 0;
-  width: 100%; 
-  height: 370px; 
-  background-color: rgba(0, 0, 0, 0.5); 
-  z-index: 1; 
+  width: 100%;
+  height: 370px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .image-container img {
   width: 100%;
   height: 100%;
-  object-fit: cover; 
-  z-index: 2; 
+  object-fit: cover;
+  z-index: 2;
 }
 h1 {
   margin-bottom: 20px;
   margin-top: 20px;
 }
 .film-page {
-  margin-left: 50px; 
+  margin-left: 50px;
 }
 .now-playing-movies {
-  margin-left: -31px!important;
+  margin-left: -31px !important;
 }
 .carousel {
   position: relative;
@@ -295,7 +346,7 @@ h1 {
 }
 
 .movie-title {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 19px;
   line-height: 20px;
@@ -306,7 +357,7 @@ h1 {
 }
 
 .movie-rating {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 15px;
   line-height: 13px;
@@ -320,7 +371,7 @@ h1 {
 }
 .movie-year {
   margin-bottom: 2px;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 13px;
   line-height: 13px;
@@ -344,12 +395,12 @@ h1 {
   font-weight: bold;
   border-radius: 18.5px !important;
   cursor: pointer;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .chatbox-button:hover {
   background: #000 !important;
-  color: #ffffff !important;  
+  color: #ffffff !important;
 }
 
 .chatbox-container {
@@ -364,12 +415,15 @@ h1 {
   display: flex;
   flex-direction: column;
   padding: 10px;
-  z-index: 1000; 
+  z-index: 1000;
 }
 
 .btn-success {
-  background: linear-gradient(90.53deg, rgba(0, 0, 0, 0.75) 0.45%, rgba(102, 80, 165, 0.75) 105.51%);
+  background: linear-gradient(
+    90.53deg,
+    rgba(0, 0, 0, 0.75) 0.45%,
+    rgba(102, 80, 165, 0.75) 105.51%
+  );
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
 }
-
 </style>

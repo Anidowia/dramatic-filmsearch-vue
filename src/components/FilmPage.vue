@@ -2,19 +2,27 @@
   <div class="film-page">
     <div v-if="movie">
       <h2>{{ movie.title }}</h2>
-      <img :src="getMoviePosterUrl(movie.poster_path)" alt="Movie Poster">
+      <img :src="getMoviePosterUrl(movie.poster_path)" alt="Movie Poster" />
       <p>Description: {{ movie.description }}</p>
       <p>Rating: {{ movie.vote_average }}</p>
       <p>Cast:</p>
       <ul class="cast-list">
-        <li v-for="(actor) in movie.cast.slice(0, 4)" :key="actor.name" class="actor-item">
-          <img :src="getActorProfileUrl(actor.profile_path)" alt="Actor Photo" class="actor-photo">
+        <li
+          v-for="actor in movie.cast.slice(0, 4)"
+          :key="actor.name"
+          class="actor-item"
+        >
+          <img
+            :src="getActorProfileUrl(actor.profile_path)"
+            alt="Actor Photo"
+            class="actor-photo"
+          />
           <span>{{ actor.name }}</span>
         </li>
       </ul>
-      <p>Genres: {{ movie.genres.join(', ') }}</p>
+      <p>Genres: {{ movie.genres.join(", ") }}</p>
       <p>Language: {{ movie.language }}</p>
-      <p>Subtitles: {{ movie.subtitles.join(', ') }}</p>
+      <p>Subtitles: {{ movie.subtitles.join(", ") }}</p>
       <button @click="watchTrailer">Watch Trailer</button>
     </div>
     <div v-if="showTrailerModal">
@@ -27,10 +35,10 @@
 </template>
 
 <script>
-import { getMovieDetails, getMovieVideos } from '@/api';
+import { getMovieDetails, getMovieVideos } from "@/api";
 
 export default {
-  name: 'FilmPage',
+  name: "FilmPage",
   data() {
     return {
       movie: null,
@@ -43,12 +51,12 @@ export default {
     try {
       this.movie = await getMovieDetails(id);
       const videos = await getMovieVideos(id);
-      const trailer = videos.find(video => video.type === 'Trailer');
+      const trailer = videos.find((video) => video.type === "Trailer");
       if (trailer) {
         this.trailerUrl = `https://www.youtube.com/embed/${trailer.key}`;
       }
     } catch (error) {
-      console.error('Error fetching movie details:', error);
+      console.error("Error fetching movie details:", error);
     }
   },
   methods: {
@@ -56,13 +64,13 @@ export default {
       if (posterPath) {
         return `https://image.tmdb.org/t/p/w500${posterPath}`;
       }
-      return '';
+      return "";
     },
     getActorProfileUrl(profilePath) {
       if (profilePath) {
         return `https://image.tmdb.org/t/p/w200${profilePath}`;
       }
-      return '';
+      return "";
     },
     watchTrailer() {
       this.showTrailerModal = true;
@@ -97,7 +105,7 @@ export default {
   box-sizing: border-box;
   width: 110px;
   height: 145px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   border-radius: 9px;
 }
 

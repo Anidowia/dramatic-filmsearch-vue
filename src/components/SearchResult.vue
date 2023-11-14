@@ -6,7 +6,7 @@
         <li v-for="result in searchResults" :key="result.id" class="movie-item">
           <router-link :to="getFilmPageUrl(result.id)">
             <div class="movie-image">
-              <img :src="getImageUrl(result.poster_path)" :alt="result.title">
+              <img :src="getImageUrl(result.poster_path)" :alt="result.title" />
             </div>
           </router-link>
           <div class="movie-details">
@@ -20,13 +20,13 @@
 </template>
 
 <script>
-import { SearchMoviesBySearch } from '@/api';
+import { SearchMoviesBySearch } from "@/api";
 
 export default {
   data() {
     return {
-      searchQuery: '',
-      searchResults: []
+      searchQuery: "",
+      searchResults: [],
     };
   },
   created() {
@@ -38,14 +38,14 @@ export default {
       try {
         this.searchResults = await SearchMoviesBySearch(this.searchQuery);
       } catch (error) {
-        console.error('Error searching movies:', error);
+        console.error("Error searching movies:", error);
       }
     },
     getImageUrl(posterPath) {
       if (posterPath) {
         return `https://image.tmdb.org/t/p/w500${posterPath}`;
       } else {
-        return '/placeholder-image.jpg';
+        return "/placeholder-image.jpg";
       }
     },
     getReleaseYear(dateString) {
@@ -53,13 +53,13 @@ export default {
         const date = new Date(dateString);
         return date.getFullYear();
       } else {
-        return 'Unknown';
+        return "Unknown";
       }
     },
     getFilmPageUrl(movieId) {
       return `/film/${movieId}`;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -114,7 +114,7 @@ export default {
 }
 
 .movie-title {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
@@ -125,7 +125,7 @@ export default {
 }
 
 .movie-year {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 700;
   font-size: 11px;
   line-height: 13px;

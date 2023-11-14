@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_KEY = '0c5b3b41d086a7ac043870cb4fe001ea';
+const API_KEY = "0c5b3b41d086a7ac043870cb4fe001ea";
 
 export const searchMovies = async () => {
   try {
@@ -9,7 +9,7 @@ export const searchMovies = async () => {
     );
     return response.data.results;
   } catch (error) {
-    console.error('Error fetching popular movies:', error);
+    console.error("Error fetching popular movies:", error);
     return [];
   }
 };
@@ -21,7 +21,7 @@ export const SearchMoviesBySearch = async (query) => {
     );
     return response.data.results;
   } catch (error) {
-    console.error('Error searching movies:', error);
+    console.error("Error searching movies:", error);
     return [];
   }
 };
@@ -31,7 +31,8 @@ export const getMovieDetails = async (movieId) => {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/${movieId}?api_key=${API_KEY}&append_to_response=credits`
     );
-    const { title, poster_path, overview, vote_average, credits } = response.data;
+    const { title, poster_path, overview, vote_average, credits } =
+      response.data;
     const cast = credits.cast.map((actor) => ({
       name: actor.name,
       profile_path: actor.profile_path,
@@ -45,10 +46,12 @@ export const getMovieDetails = async (movieId) => {
       cast,
       genres: response.data.genres.map((genre) => genre.name),
       language: response.data.original_language,
-      subtitles: response.data.spoken_languages.map((language) => language.name),
+      subtitles: response.data.spoken_languages.map(
+        (language) => language.name
+      ),
     };
   } catch (error) {
-    console.error('Error fetching movie details:', error);
+    console.error("Error fetching movie details:", error);
     return null;
   }
 };
@@ -62,7 +65,7 @@ export const getMovieVideos = async (movieId) => {
       key: video.key,
     }));
   } catch (error) {
-    console.error('Error fetching movie videos:', error);
+    console.error("Error fetching movie videos:", error);
     return [];
   }
 };
@@ -74,7 +77,7 @@ export const getNowPlayingMovies = async () => {
     );
     return response.data.results;
   } catch (error) {
-    console.error('Error fetching now playing movies:', error);
+    console.error("Error fetching now playing movies:", error);
     return [];
   }
 };
@@ -86,7 +89,7 @@ export const getNowAiringTVShows = async () => {
     );
     return response.data.results;
   } catch (error) {
-    console.error('Error fetching latest TV shows:', error);
+    console.error("Error fetching latest TV shows:", error);
     return [];
   }
 };
@@ -103,15 +106,15 @@ export const getMostPopularMovieOrTVShow = async () => {
       const posterUrl = `https://image.tmdb.org/t/p/original${posterPath}`;
       return {
         title: mostPopularItem.title || mostPopularItem.name,
-        poster_path: posterUrl, 
+        poster_path: posterUrl,
         media_type: mostPopularItem.media_type,
       };
     } else {
-      console.log('The list of popular series is empty.');
+      console.log("The list of popular series is empty.");
       return null;
     }
   } catch (error) {
-    console.error('Error fetching latest series:', error);
+    console.error("Error fetching latest series:", error);
     return null;
   }
 };
