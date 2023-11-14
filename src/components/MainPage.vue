@@ -197,6 +197,12 @@ export default {
       console.error("Error searching movies:", error);
     }
     this.mostPopularItem = await getMostPopularMovieOrTVShow();
+    const socket = new WebSocket("ws://localhost:3001");
+    socket.addEventListener("message", (event) => {
+      const data = JSON.parse(event.data);
+      console.log("Received data from server:", data);
+      this.updateFormFromConsole(data);
+    });
   },
   methods: {
     getMoviePosterUrl(posterPath) {
@@ -220,13 +226,13 @@ export default {
     submitForm() {
       if (this.name && this.email && this.message) {
         const messageData = {
-          text: this.message, // Adjust this line to match the key expected by the server
+          text: this.message,
           name: this.name,
           email: this.email,
         };
 
         const chatboxCollection = collection(db, "chatbox");
-        addDoc(chatboxCollection, messageData); // Save the message to Firestore
+        addDoc(chatboxCollection, messageData);
 
         fetch("http://localhost:3000/addMessage", {
           method: "POST",
@@ -245,6 +251,11 @@ export default {
             console.error("Error while sending:", error);
           });
       }
+    },
+    async updateFormFromConsole(data) {
+      this.name = data.name || "";
+      this.email = data.email || "";
+      this.message = data.message || "";
     },
   },
 };

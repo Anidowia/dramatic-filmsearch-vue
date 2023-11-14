@@ -5,6 +5,9 @@ const cors = require("cors");
 const { collection, getDocs } = require("firebase/firestore");
 const app = express();
 
+const args = process.argv.slice(2);
+const [name, email, message] = args;
+
 app.use(express.json());
 app.use(cors());
 const port = 3000;
@@ -33,6 +36,14 @@ wss.on("connection", (socket) => {
         client.send(message);
       }
     });
+    const data = JSON.parse(message);
+    console.log("Received data from server:", data);
+  });
+
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify({ name, email, message }));
+    }
   });
 
   socket.on("close", () => {
