@@ -199,9 +199,14 @@ export default {
     this.mostPopularItem = await getMostPopularMovieOrTVShow();
     const socket = new WebSocket("ws://localhost:3001");
     socket.addEventListener("message", (event) => {
-      const data = JSON.parse(event.data);
-      console.log("Received data from server:", data);
-      this.updateFormFromConsole(data);
+      const data = event.data;
+      if (
+        data.includes("name") &&
+        data.includes("email") &&
+        data.includes("message")
+      ) {
+        this.updateFormFromConsole(JSON.parse(data));
+      }
     });
   },
   methods: {
