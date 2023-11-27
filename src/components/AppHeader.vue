@@ -11,7 +11,16 @@
         <li>
           <router-link to="/tvshow"><a>TV SHOWS</a></router-link>
         </li>
-        <li><a href="#">MOVIES</a></li>
+        <li>
+          <span v-if="isLoggedIn">
+            <router-link to="/admin">
+              <a href="#">ADMIN</a>
+            </router-link>
+          </span>
+          <span v-else>
+            <a href="#">MOVIES</a>
+          </span>
+        </li>
         <li>
           <router-link to="/discuss"><a>DISCUSS</a></router-link>
         </li>

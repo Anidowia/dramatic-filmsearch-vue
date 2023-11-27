@@ -1,19 +1,25 @@
 <template>
   <div id="app">
-    <AppHeader />
+    <AppHeader v-if="meta.showHeader" />
     <router-view />
-    <AppFooter />
+    <AppFooter v-if="meta.showFooter" />
   </div>
 </template>
 
 <script>
 import AppHeader from "./components/AppHeader.vue";
 import AppFooter from "./components/AppFooter.vue";
+
 export default {
   name: "App",
   components: {
     AppHeader,
     AppFooter,
+  },
+  computed: {
+    meta() {
+      return this.$route.meta;
+    },
   },
 };
 </script>

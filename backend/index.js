@@ -114,7 +114,7 @@ app.route("/user/:uid").get(async (req, res) => {
 });
 
 app.route("/getMessage/:id").get(async (req, res) => {
-  const messageId = req.params.id; // Get the message ID from the request parameters
+  const messageId = req.params.id; 
 
   try {
     const chatboxDoc = await db.collection("chatbox").doc(messageId).get();
