@@ -199,13 +199,11 @@ export default {
     this.mostPopularItem = await getMostPopularMovieOrTVShow();
     const socket = new WebSocket("ws://localhost:3001");
     socket.addEventListener("message", (event) => {
-      const data = event.data;
-      if (
-        data.includes("name") &&
-        data.includes("email") &&
-        data.includes("message")
-      ) {
-        this.updateFormFromConsole(JSON.parse(data));
+      try {
+        const data = event.data;
+        this.updateFormFromConsole(data);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
       }
     });
   },
@@ -258,9 +256,24 @@ export default {
       }
     },
     async updateFormFromConsole(data) {
-      this.name = data.name || "";
-      this.email = data.email || "";
-      this.message = data.message || "";
+      try {
+        if (data instanceof Blob) {
+          const textData = await data.text();
+          const jsonData = JSON.parse(textData);
+          this.name = jsonData.name || "";
+          this.email = jsonData.email || "";
+          this.message = jsonData.text || "";
+        } else if (typeof data === "string") {
+          const jsonData = JSON.parse(data);
+          this.name = jsonData.name || "";
+          this.email = jsonData.email || "";
+          this.message = jsonData.text || "";
+        } else {
+          console.error("Unsupported data type:", data);
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
     },
   },
 };

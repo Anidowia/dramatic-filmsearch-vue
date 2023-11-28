@@ -12,12 +12,7 @@
           <router-link to="/tvshow"><a>TV SHOWS</a></router-link>
         </li>
         <li>
-          <span v-if="isLoggedIn">
-            <router-link to="/admin">
-              <a href="#">ADMIN</a>
-            </router-link>
-          </span>
-          <span v-else>
+          <span>
             <a href="#">MOVIES</a>
           </span>
         </li>
@@ -227,7 +222,6 @@ const searchMovies = () => {
   background-color: #ffc907 !important;
   font-weight: bold;
   border-radius: 18.5px !important;
-  line-height: 30px !important;
   text-align: center !important;
 }
 

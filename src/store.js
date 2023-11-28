@@ -4,8 +4,16 @@ export default createStore({
   state: {
     currentUser: null,
     notifications: [],
+    formData: {
+      text: "",
+      name: "",
+      email: "",
+    },
   },
   mutations: {
+    updateFormData(state, newData) {
+      state.formData = newData;
+    },
     SET_CURRENT_USER(state, user) {
       state.currentUser = user;
     },
@@ -20,11 +28,17 @@ export default createStore({
     },
   },
   actions: {
+    setFormData({ commit }, newData) {
+      commit("updateFormData", newData);
+    },
     addNotification({ commit }, notification) {
       commit("ADD_NOTIFICATION", notification);
     },
     removeNotification({ commit }, notification) {
       commit("REMOVE_NOTIFICATION", notification);
     },
+  },
+  getters: {
+    formData: (state) => state.formData,
   },
 });

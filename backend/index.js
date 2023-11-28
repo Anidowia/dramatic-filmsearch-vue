@@ -106,7 +106,17 @@ app.route("/user/:uid").get(async (req, res) => {
 
   try {
     const userRecord = await admin.auth().getUser(uid);
-    res.json({ success: true, user: userRecord });
+    const userData = {
+      uid: userRecord.uid,
+      email: userRecord.email,
+      emailVerified: userRecord.emailVerified,
+      disabled: userRecord.disabled,
+      metadata: userRecord.metadata,
+      tokensValidAfterTime: userRecord.tokensValidAfterTime,
+      providerData: userRecord.providerData,
+      // Exclude password from the response
+    };
+    res.json({ success: true, user: userData });
   } catch (error) {
     console.error("Error fetching user data:", error);
     res.status(500).json({ success: false, error: "Error fetching user data" });
@@ -114,7 +124,7 @@ app.route("/user/:uid").get(async (req, res) => {
 });
 
 app.route("/getMessage/:id").get(async (req, res) => {
-  const messageId = req.params.id; 
+  const messageId = req.params.id;
 
   try {
     const chatboxDoc = await db.collection("chatbox").doc(messageId).get();
@@ -131,6 +141,7 @@ app.route("/getMessage/:id").get(async (req, res) => {
       name: data.name,
       email: data.email,
       message: data.message,
+      text: data.text, // Add the text field to the messageData object
     };
 
     res.json({ success: true, messageData });
@@ -145,7 +156,20 @@ app.route("/getMessage/:id").get(async (req, res) => {
 // Route for adding a new user
 app.route("/addUser").post(async (req, res) => {
   try {
-    const userData = req.body;
+    const { email, password } = req.query;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Email and password are required" });
+    }
+
+    const userData = {
+      email: email,
+      password: password,
+      // Add other user data as needed
+    };
+
     const userRecord = await admin.auth().createUser(userData);
 
     wss.clients.forEach((client) => {
@@ -153,6 +177,7 @@ app.route("/addUser").post(async (req, res) => {
         client.send("User registered successfully!");
       }
     });
+
     res.json({ success: true, user: userRecord });
   } catch (error) {
     console.error("Error adding user:", error);
@@ -166,7 +191,13 @@ app.route("/addMessage").post(async (req, res) => {
 
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send("New message: " + messageData.text);
+        client.send(
+          JSON.stringify({
+            text: messageData.text,
+            name: messageData.name,
+            email: messageData.email,
+          })
+        );
       }
     });
 

@@ -47,13 +47,23 @@ const routes = [
   },
   {
     path: "/admin",
-    name: "PanelPage",
+    name: "PanelNot",
     component: () => import("@/components/PanelPage.vue"),
   },
+  {
+    path: "/panel",
+    name: "AdminPage",
+    component: () => import("@/components/PanelNot.vue"),
+  },
+  {
+    path: "/admin/panel",
+    name: "PanelPage",
+    component: () => import("@/components/AdminPage.vue"),
+  },
 ];
+
 export const router = createRouter({
   history: createWebHistory(),
   routes,
 });
-
 export default router;
