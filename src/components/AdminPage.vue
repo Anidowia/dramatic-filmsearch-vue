@@ -169,6 +169,11 @@
 
         <button @click="addMessage" class="btn btn-primary">Add Message</button>
       </div>
+      <div>
+        <p>Name: {{ receivedMessage.name }}</p>
+        <p>Email: {{ receivedMessage.email }}</p>
+        <p>Message: {{ receivedMessage.text }}</p>
+      </div>
     </div>
   </main>
 </template>
@@ -193,6 +198,11 @@ export default {
       name: "",
       email: "",
       socket: null,
+      receivedMessage: {
+        name: "",
+        email: "",
+        text: "",
+      },
     };
   },
   mounted() {
@@ -310,10 +320,24 @@ export default {
       this.UserMessage = "";
     },
     async updateFormFromConsole(data) {
-      console.log("Received data:", data);
-      this.name = data.name || "";
-      this.email = data.email || "";
-      this.message = data.text || "";
+      try {
+        if (data instanceof Blob) {
+          const textData = await data.text();
+          const jsonData = JSON.parse(textData);
+          this.receivedMessage.name = jsonData.name || "";
+          this.receivedMessage.email = jsonData.email || "";
+          this.receivedMessage.text = jsonData.text || "";
+        } else if (typeof data === "string") {
+          const jsonData = JSON.parse(data);
+          this.receivedMessage.name = jsonData.name || "";
+          this.receivedMessage.email = jsonData.email || "";
+          this.receivedMessage.text = jsonData.text || "";
+        } else {
+          console.error("Unsupported data type:", data);
+        }
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
     },
   },
 };
