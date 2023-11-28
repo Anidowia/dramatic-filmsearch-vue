@@ -247,3 +247,40 @@ app.route("/updateUser/:uid").put(async (req, res) => {
       .json({ success: false, error: "Error updating user data" });
   }
 });
+
+//delete user
+app.route("/deleteUser/:uid").delete(async (req, res) => {
+  const uid = req.params.uid;
+  try {
+    await admin.auth().deleteUser(uid);
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send("User deleted successfully!");
+      }
+    });
+    return res.json({ success: true, message: "User deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Error deleting user" });
+  }
+});
+// Route for deleting a message by ID
+app.route("/deleteMessage/:id").delete(async (req, res) => {
+  const messageId = req.params.id;
+  try {
+    await db.collection("chatbox").doc(messageId).delete();
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send("Message deleted successfully!");
+      }
+    });
+    return res.json({ success: true, message: "Message deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting message:", error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Error deleting message" });
+  }
+});

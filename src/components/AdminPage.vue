@@ -4,15 +4,21 @@
       <div class="position-sticky">
         <div class="list-group list-group-flush mx-3 mt-4">
           <ul class="list-group bg-transparent">
-            <li class="list-group-item bg-transparent">Cras justo odio</li>
             <li class="list-group-item bg-transparent">
-              Dapibus ac facilisis in
+              <a href="#fetch">Fetch Data</a>
             </li>
-            <li class="list-group-item bg-transparent">Morbi leo risus</li>
             <li class="list-group-item bg-transparent">
-              Porta ac consectetur ac
+              <a href="#create"> Create Users/Messages </a>
             </li>
-            <li class="list-group-item bg-transparent">Vestibulum at eros</li>
+            <li class="list-group-item bg-transparent">
+              <a href="#update">Update Data</a>
+            </li>
+            <li class="list-group-item bg-transparent">
+              <a href="#delete">Delete Data</a>
+            </li>
+            <li class="list-group-item bg-transparent">
+              <a href="#get">Get Messages Chatbox Data</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -61,7 +67,9 @@
   </header>
   <main style="margin-top: 58px">
     <div class="container pt-4">
-      <button @click="fetchUsers" class="btn btn-primary">Fetch Users</button>
+      <button @click="fetchUsers" class="btn btn-primary" id="fetch">
+        Fetch Users
+      </button>
       <h2>Users</h2>
       <table style="width: 100%; font-size: 18px" border="">
         <thead>
@@ -132,7 +140,7 @@
       </div>
 
       <div>
-        <h2>User Update</h2>
+        <h2 id="update">User Update</h2>
         <label for="updateUserId" style="font-size: 18px">User ID:</label>
         <input v-model="updateUserId" type="text" id="updateUserId" />
         <label for="updateUserEmail" style="font-size: 18px">New Email:</label>
@@ -149,7 +157,7 @@
       </div>
 
       <div>
-        <h2>User Addition</h2>
+        <h2 id="create">User Addition</h2>
         <label for="newUserEmail" style="font-size: 18px">Email:</label>
         <input v-model="newUserEmail" type="text" id="newUserEmail" />
         <label for="newUserPassword" style="font-size: 18px">Password:</label>
@@ -170,6 +178,23 @@
         <button @click="addMessage" class="btn btn-primary">Add Message</button>
       </div>
       <div>
+        <h2 id="delete">User Deletion</h2>
+        <label for="userIdToDelete" style="font-size: 18px">User ID:</label>
+        <input v-model="userIdToDelete" type="text" id="userIdToDelete" />
+        <button @click="deleteUser" class="btn btn-danger">Delete User</button>
+      </div>
+      <div>
+        <h2>Message Deletion</h2>
+        <label for="messageIdToDelete" style="font-size: 18px"
+          >Message ID:</label
+        >
+        <input v-model="messageIdToDelete" type="text" id="messageIdToDelete" />
+        <button @click="deleteMessage" class="btn btn-danger">
+          Delete Message
+        </button>
+      </div>
+      <div>
+        <h2 id="get">Chatbox Feedback</h2>
         <p>Name: {{ receivedMessage.name }}</p>
         <p>Email: {{ receivedMessage.email }}</p>
         <p>Message: {{ receivedMessage.text }}</p>
@@ -203,6 +228,8 @@ export default {
         email: "",
         text: "",
       },
+      userIdToDelete: "",
+      messageIdToDelete: "",
     };
   },
   mounted() {
@@ -306,6 +333,7 @@ export default {
       if (this.socket.readyState === WebSocket.OPEN) {
         this.socket.send(JSON.stringify(messageData));
         console.log("Sent data:", messageData);
+        alert("Added succesfully!");
       } else {
         console.error("WebSocket connection not open.");
       }
@@ -318,6 +346,40 @@ export default {
       this.UserName = "";
       this.UserEmail = "";
       this.UserMessage = "";
+    },
+    async deleteUser() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/deleteUser/${this.userIdToDelete}`,
+          { method: "DELETE" }
+        );
+        const textResponse = await response.text();
+        const data = JSON.parse(textResponse);
+        if (data.success) {
+          alert("User deleted successfully");
+        } else {
+          console.error("Error deleting user:", data.error);
+        }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    },
+    async deleteMessage() {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/deleteMessage/${this.messageIdToDelete}`,
+          { method: "DELETE" }
+        );
+        const data = await response.json();
+
+        if (data.success) {
+          alert("Message deleted successfully");
+        } else {
+          console.error("Error deleting message:", data.error);
+        }
+      } catch (error) {
+        console.error("Error deleting message:", error);
+      }
     },
     async updateFormFromConsole(data) {
       try {
@@ -411,5 +473,8 @@ svg:not(:root) {
   padding-top: 0.5rem;
   overflow-x: hidden;
   overflow-y: auto;
+}
+.position-sticky a {
+  color: white;
 }
 </style>
